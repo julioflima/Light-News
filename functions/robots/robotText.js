@@ -1,15 +1,17 @@
 const functions = require('firebase-functions');
 const admin = require("firebase-admin");
-const googleTranslate = require("google-translate")('AIzaSyC4Dr6FxV_EYcuqt4f00qNNNpxdS99lEVo');
+const credentials = require('../dataBank/credentials.json')
+const googleTranslate = require("google-translate")(credentials.googleTranslateKey);
 const request = require('request');
 const cheerio = require('cheerio');
-const listFilter = require('../filter/listFilter.json')
+const listFilter = require('../dataBank/listFilter.json')
 
 exports = module.exports = functions.https.onRequest(async (req, res) => {
     let news = await getFromBBC(req);
-    let { translatedText, detectedSourceLanguage } = await getTranslation(news.join(' '))
-    let reNews = await getReTranslation(translatedText, detectedSourceLanguage)
-    res.send(reNews)
+    let { translatedText, detectedSourceLanguage } = await getTranslation(news.join(' '));
+    let hasTags = getHashtags(translatedText);
+    // let reNews = await getReTranslation(translatedText, detectedSourceLanguage)
+    res.send(hasTags)
 
 });
 
@@ -67,8 +69,8 @@ function getTranslation(strings) {
 }
 
 function getReTranslation(strings, lang) {
-    return new Promise(function (resolve, reject) {
-        googleTranslate.translate(strings, 'en', lang, function (error, translations) {
+    return new Promise((resolve, reject) => {
+        googleTranslate.translate(strings, 'en', lang, (error, translations) => {
             if (!error) {
                 resolve(translations);
             } else {
@@ -80,8 +82,8 @@ function getReTranslation(strings, lang) {
 
 
 function getSummarize(strings, lang) {
-    return new Promise(function (resolve, reject) {
-        googleTranslate.translate(strings, 'en', lang, function (error, translations) {
+    return new Promise((resolve, reject) => {
+        googleTranslate.translate(strings, 'en', lang, (error, translations) => {
             if (!error) {
                 resolve(translations);
             } else {
@@ -91,21 +93,18 @@ function getSummarize(strings, lang) {
     });
 }
 
-function getHashtags(news,nHashtags) {
-    return new Promise(function (resolve, reject) {
-        Algorithmia.client("sim7akAsM28cW02rMbwA1r/ktV/1")
+function getHashtags(news) {
+    return new Promise((resolve, reject) => {
+        Algorithmia.client(credentials.algoritmiaKey)
             .algo("SummarAI/Summarizer/0.1.3?timeout=300") // timeout is optional
             .pipe(news)
-            .then(function (response) {
-                console.log(response.get());
+            .then((response) => {
+                let { auto_gen_ranked_keywords } = response.get()
+                resolve(auto_gen_ranked_keywords);
+            })
+            .catch((error) => {
+                reject(error)
             });
-        googleTranslate.translate(strings, 'en', lang, function (error, translations) {
-            if (!error) {
-                resolve(translations);
-            } else {
-                reject(error);
-            }
-        });
     });
 }
 
