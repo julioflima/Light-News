@@ -38,31 +38,27 @@ function showContact() {
     contact.style.display = 'block';
     about.style.display = 'none';
 }
-async function cloudComputing(somethingSearch) {
-    search.disabled = true;
-    getSomethingSearch(somethingSearch).then((data) => {
-        plotConsole(data);
-        getPrefixTrend(data.docId, data.content.searchTerm).then((data) => {
-            plotConsole(data);
-            search.disabled = false;
-        }).catch((error) => {
-            plotConsole(error);
-            search.disabled = false;
-        });
-    }).catch((error) => {
-        plotConsole(error);
-        search.disabled = false;
-    });
+async function cloudComputing(someURl) {
+    plotConsole(getSummarized(someURl))
+
 }
 
 function plotConsole(result) {
     consoleRemote.innerHTML = consoleRemote.innerHTML + "<br />" + JSON.stringify(result);
+    let elem = document.getElementById('console');
+    elem.scrollTop = elem.scrollHeight;
 }
 
-async function getSomethingSearch(somethingSearch) {
+
+
+async function getSummarized(someURl) {
+    return await getFromCloud('testText', {'someURL': someURl})
+}
+
+async function getFromCloud(func, data) {
     let dataReturn;
     await $.ajax({
-        url: 'https://us-central1-minevideo-2ceee.cloudfunctions.net/submit',
+        url: 'http://localhost:5001/light-news/us-central1/' + func,
         dataType: "json",
         method: 'GET',
         crossDomain: true,
@@ -70,38 +66,16 @@ async function getSomethingSearch(somethingSearch) {
             'Accept': 'application/json'
         },
 
-        data: {
-            "searchTerm": somethingSearch,
-        },
+        data: data,
 
         success: function (data) {
             console.log(JSON.stringify(data));
             dataReturn = data;
-        }
-    });
-
-    return dataReturn;
-}
-
-async function getPrefixTrend(docId, somethingSearch) {
-    let dataReturn;
-    await $.ajax({
-        url: 'https://us-central1-minevideo-2ceee.cloudfunctions.net/getPrefixTrend',
-        dataType: "json",
-        method: 'GET',
-        crossDomain: true,
-        headers: {
-            'Accept': 'application/json'
         },
-
-        data: {
-            "docId": docId,
-            'searchTerm': somethingSearch
-        },
-
-        success: function (data) {
-            console.log(JSON.stringify(data));
-            dataReturn = data;
+        error: function (request, status, error) {
+            plotConsole(status);
+            plotConsole(error);
+            plotConsole(request.responseText);
         }
     });
 

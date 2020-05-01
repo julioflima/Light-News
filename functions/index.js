@@ -3,5 +3,4 @@ const admin = require('firebase-admin');
 
 admin.initializeApp(functions.config().firebase);
 
-exports.submit = require('./textRobot/somethingToWatch');
-exports.getPrefixTrend = require('./textRobot/getPrefixTrend');
+exports.robotText = require('./robots/robotText');
