@@ -4,11 +4,11 @@
  
  
 ### Great Achievals:
-- ##### Obtain from user an URL with news.
-- ##### Summarizing News with Artifical Inteligence;
-- ##### Produce Key Words with Artifical Inteligence;
-- ##### Referenciate the font;
-- ##### Use Facebook API to post this news on Instagram;
+-  Obtain from user an URL with news.
+-  Summarizing News with Artifical Inteligence;
+-  Produce Key Words with Artifical Inteligence;
+-  Referenciate the font;
+-  Use Facebook API to post this news on Instagram;
 
 
 
