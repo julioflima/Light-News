@@ -52,8 +52,8 @@
 					</div>
 					<div class="logo text-center">
 						<div id="fh5co-logo">
-								Light News
-								<img src="images/pick.png" height="50px">
+							Light News
+							<img src="images/pick.png" height="50px">
 							</a></div>
 					</div>
 					<br>
@@ -94,7 +94,7 @@
 											<div class="col-md-6 col-md-offset-3">
 												<div class="form-group">
 													<input type="text" class="form-control" id="somethingToRise"
-														placeholder="some URL to summarize...">
+														placeholder="some URL to summarize..." value="https://www.bbc.com/portuguese/internacional-52485030">
 													<button id="mineNow" class="btn btn-default">News Now </button>
 
 												</div>
@@ -238,7 +238,29 @@
 		<div class="gototop js-top">
 			<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 		</div>
+		<!-- SDK Facebook -->
+		<script>
+			window.fbAsyncInit = function () {
+				FB.init({
+					appId: '265610031500167',
+					autoLogAppEvents: true,
+					cookie: true,
+					xfbml: true,
+					version: 'v6.0'
+				});
 
+				FB.AppEvents.logPageView();
+
+			};
+
+			(function (d, s, id) {
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) { return; }
+				js = d.createElement(s); js.id = id;
+				js.src = "https://connect.facebook.net/en_US/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+		</script>
 		<!-- jQuery -->
 		<script src="js/plugins/jquery.min.js"></script>
 		<!-- jQuery Easing -->
@@ -250,7 +272,7 @@
 		<!-- Main Template-->
 		<script src="js/plugins/main.js"></script>
 		<!-- Main -->
-		<script src="js/main/mineVideo.js"></script>
+		<script src="js/main/lightNews.js"></script>
 		<!-- Google Map -->
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8YFxNVj9NiLyYqKxmpBoFTBeSD-6NH5I&language=EN"></script>

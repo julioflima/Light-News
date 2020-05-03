@@ -38,10 +38,7 @@ function showContact() {
     contact.style.display = 'block';
     about.style.display = 'none';
 }
-async function cloudComputing(someURl) {
-    plotConsole(getSummarized(someURl))
 
-}
 
 function plotConsole(result) {
     consoleRemote.innerHTML = consoleRemote.innerHTML + "<br />" + JSON.stringify(result);
@@ -49,25 +46,48 @@ function plotConsole(result) {
     elem.scrollTop = elem.scrollHeight;
 }
 
-
-
 async function getSummarized(someURl) {
-    return await getFromCloud('testText', {'someURL': someURl})
+    plotConsole(`Getting from: ${someURl}`)
+    let response = await getFromCloud('robotText', { 'someURL': someURl })
+    plotConsole(response)
+    return response;
+}
+
+async function cloudComputing(someURl) {
+    FB.login(function (response) {
+        if (response.status === 'connected') {
+            getSummarized(someURl).then((bundleNews) => {
+                // postOnInstagram(bundleNews)
+            })
+        } else {
+            plotConsole("The user is not logged into this web page or we are unable to tell.")
+        }
+    }, { scope: 'instagram_basic,instagram_content_publish' });
 }
 
 async function getFromCloud(func, data) {
+    return await network('https://us-central1-light-news.cloudfunctions.net/' + func, 'GET', data)
+}
+
+async function postOnInstagram(bundleNews) {
+    plotConsole(`Posting on Instagram...`)
+    let response = await FB.getLoginStatus();
+    plotConsole(`${response}`)
+    console.log(response)
+    // return await network('https://us-central1-light-news.cloudfunctions.net/' + func, 'GET', data)
+}
+
+async function network(url, method, data) {
     let dataReturn;
     await $.ajax({
-        url: 'http://localhost:5001/light-news/us-central1/' + func,
+        url: url,
         dataType: "json",
-        method: 'GET',
+        method: method,
         crossDomain: true,
         headers: {
             'Accept': 'application/json'
         },
-
         data: data,
-
         success: function (data) {
             console.log(JSON.stringify(data));
             dataReturn = data;
@@ -78,6 +98,5 @@ async function getFromCloud(func, data) {
             plotConsole(request.responseText);
         }
     });
-
     return dataReturn;
 }

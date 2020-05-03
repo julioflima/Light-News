@@ -2,11 +2,11 @@ const functions = require('firebase-functions');
 const admin = require("firebase-admin");
 const credentials = require('../dataBank/credentials.json')
 const googleTranslate = require("google-translate")(credentials.googleTranslateKey);
-const request = require('request');
 const cheerio = require('cheerio');
 const algorithmia = require("algorithmia")(credentials.algorithmiaKey);
 const listFilter = require('../dataBank/listFilter.json')
 const fs = require('fs');
+const axios = require('axios');
 
 exports = module.exports = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
@@ -14,36 +14,33 @@ exports = module.exports = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Max-Age', '3600');
 
     let bundleNews = await getFromBBC(req);
-    // let translationNews = await getTranslation(bundleNews.news);
-    // let gringoSummary = await getSummarize(translationNews);
-    // let gringoHashtags = await getHashtags(translationNews);
-    // let summary = await getReTranslationSummary(gringoSummary);
-    // let hashtags = await getReTranslationHashtags(gringoHashtags);
-    // let caption = buildCaption(summary, hashtags)
+    let translationNews = await getTranslation(bundleNews.news);
+    let gringoSummary = await getSummarize(translationNews);
+    let gringoHashtags = await getHashtags(translationNews);
+    let summary = await getReTranslationSummary(gringoSummary);
+    let hashtags = await getReTranslationHashtags(gringoHashtags);
+    bundleNews.news = buildCaption(summary, hashtags)
 
-    res.send(bundleNews)
+    res.send(JSON.stringify(bundleNews))
 });
-
 
 async function getFromBBC(req) {
     let options = {
         method: 'get',
-        url: req.body.someURL,
+        url:  req.body.someURL || req.query.someURL,
         headers: {
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
         }
     };
 
-
-    // const body = await doRequest(options)
+    const { data } = await axios(options)
 
     /*****************DEBUG SCOPE*******************/
-    const body = await readDebugPage()
-    // writeDebugPage(body)
+    // writeDebugPage(data)
+    // const data = await readDebugPage()
     /*****************DEBUG SCOPE*******************/
 
-
-    let $ = cheerio.load(body);
+    let $ = cheerio.load(data);
 
     let news = [];
     $('p').each(function () {
@@ -54,37 +51,13 @@ async function getFromBBC(req) {
         return !listFilter.bbc.includes(item);
     }).join(' ')
 
-    let imgsNews = [];
-    $('.story-body img').each(function () {
-        // imgsNews.push({ 'src': $(this)[0].src, 'alt': $(this)[0].alt });
+    let imgNews = [];
+    $('img').each(function (index, element) {
+        imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
     });
 
-    let len = $('.story-body').children('img').length
-
-
-    console.log(len)
-
-
-
-
-
-    // return { 'news': news, 'imgs': imgsNews }
-    return news
+    return { news, imgNews }
 }
-
-function doRequest(options) {
-    return new Promise((resolve, reject) => {
-        request(options, (error, res, body) => {
-            if (!error && res.statusCode === 200) {
-                // dataBank(res.request.uri.host + res.request.uri.path)
-                resolve(body);
-            } else {
-                reject(error);
-            }
-        });
-    });
-}
-
 
 async function getTranslation(strings) {
     let response = await new Promise((resolve, reject) => {
@@ -98,9 +71,6 @@ async function getTranslation(strings) {
     });
     return response.translatedText;
 }
-
-
-
 
 async function getReTranslationSummary(strings) {
     let response = await new Promise((resolve, reject) => {
@@ -147,31 +117,14 @@ async function getHashtags(news) {
     return auto_gen_ranked_keywords
 }
 
-function dataBank(link) {
-    fs.readFile('../dataBank/newsBank.json', 'utf8', function readFileCallback(err, data) {
-        if (err) {
-            console.log(err);
-        } else {
-            obj = JSON.parse(data);
-            if (obj.link == undefined) {
-                obj.push
-            }
-            obj.table.push({ id: 2, square: 3 }); //add some data
-            json = JSON.stringify(obj); //convert it back to json
-        }
-    });
-
-}
-
 function buildCaption(summary, hashtags) {
     let arrays = [summary, hashtags.slice(0, 5).map(s => "#" + s).join(' ')].join(' /n/n/n ');
     return arrays;
 }
 
-
 async function readDebugPage() {
     return await new Promise((resolve, reject) => {
-        fs.readFile('output.json', 'utf8', function readFileCallback(err, data) {
+        fs.readFile('./robots/output.json', 'utf8', (err, data) => {
             if (!err) {
                 resolve(data);
             } else {
@@ -181,10 +134,9 @@ async function readDebugPage() {
     });
 }
 
-
 async function writeDebugPage(content) {
     return await new Promise((resolve, reject) => {
-        fs.writeFile("output.json", content, 'utf8', function (err) {
+        fs.writeFile("./robots/output.json", content, 'utf8', (err) => {
             if (!err) {
                 resolve();
             } else {
