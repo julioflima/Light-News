@@ -13,32 +13,44 @@ exports = module.exports = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Allow-Credentials', 'true'); // vital
     res.set('Access-Control-Max-Age', '3600');
 
-    let bundleNews = await getFromBBC(req);
-    let translationNews = await getTranslation(bundleNews.news);
-    let gringoSummary = await getSummarize(translationNews);
-    let gringoHashtags = await getHashtags(translationNews);
-    let summary = await getReTranslationSummary(gringoSummary);
-    let hashtags = await getReTranslationHashtags(gringoHashtags);
-    bundleNews.news = buildCaption(summary, hashtags)
+    let someURL = req.body.someURL || req.query.someURL;
+    let lang = req.body.lang || req.query.lang;
 
-    res.send(JSON.stringify(bundleNews))
+    let bundleNews = await getFromBBC(someURL);
+    let { translatedText, detectedSourceLanguage } = await getTranslationToEn(bundleNews.news);
+    let gringoSummary = await getSummarize(translatedText);
+    let gringoHashtags = await getHashtags(translatedText);
+    let summary = await getReTranslation(gringoSummary, lang);
+    let hashtags = await getReTranslation(gringoHashtags, lang);
+    let reference = await getReTranslation(referenciate(bundleNews.host), lang);
+
+    bundleNews.langNews = detectedSourceLanguage;
+    bundleNews.langCaption = lang;
+    bundleNews.caption = buildCaption(summary, reference, hashtags);
+
+    return res.send(bundleNews);
 });
 
-async function getFromBBC(req) {
+async function getFromBBC(someURL) {
     let options = {
         method: 'get',
-        url:  req.body.someURL || req.query.someURL,
+        url: someURL,
         headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
         }
     };
 
-    const { data } = await axios(options)
+    const { data, request } = await axios(options)
 
     /*****************DEBUG SCOPE*******************/
     // writeDebugPage(data)
     // const data = await readDebugPage()
     /*****************DEBUG SCOPE*******************/
+
+
+    let host = request.connection._host
+
+    let url = host + request.path
 
     let $ = cheerio.load(data);
 
@@ -52,14 +64,14 @@ async function getFromBBC(req) {
     }).join(' ')
 
     let imgNews = [];
-    $('img').each(function (index, element) {
+    $('img').each(function () {
         imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
     });
 
-    return { news, imgNews }
+    return { news, imgNews, host, url }
 }
 
-async function getTranslation(strings) {
+async function getTranslationToEn(strings) {
     let response = await new Promise((resolve, reject) => {
         googleTranslate.translate(strings, 'en', (error, translations) => {
             if (!error) {
@@ -69,12 +81,12 @@ async function getTranslation(strings) {
             }
         });
     });
-    return response.translatedText;
+    return response;
 }
 
-async function getReTranslationSummary(strings) {
+async function getReTranslation(strings, lang) {
     let response = await new Promise((resolve, reject) => {
-        googleTranslate.translate(strings, 'en', 'pt', (error, translations) => {
+        googleTranslate.translate(strings, 'en', lang, (error, translations) => {
             if (!error) {
                 resolve(translations);
             } else {
@@ -84,42 +96,35 @@ async function getReTranslationSummary(strings) {
     });
     return response.translatedText;
 }
-
-async function getReTranslationHashtags(strings) {
-    let response = await new Promise((resolve, reject) => {
-        googleTranslate.translate(strings, 'en', 'pt', (error, translations) => {
-            if (!error) {
-                resolve(translations);
-            } else {
-                reject(error);
-            }
-        });
-    });
-    let newHash = []
-    response.forEach((s) => { newHash.push(s.translatedText) })
-    return newHash;
-}
-
 
 async function getSummarize(news) {
-    let response = await algorithmia
-        .algo('nlp/Summarizer/0.1.8')
-        .pipe(news)
-    return response.get()
+    try {
+        let response = await algorithmia
+            .algo('nlp/Summarizer/0.1.8')
+            .pipe(news)
+        return response.get()
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
-
 
 async function getHashtags(news) {
     let response = await algorithmia
         .algo("SummarAI/Summarizer/0.1.3")
         .pipe(news)
     let { auto_gen_ranked_keywords } = response.get();
-    return auto_gen_ranked_keywords
+    return auto_gen_ranked_keywords.join(' ')
 }
 
-function buildCaption(summary, hashtags) {
-    let arrays = [summary, hashtags.slice(0, 5).map(s => "#" + s).join(' ')].join(' /n/n/n ');
+function buildCaption(summary, reference, hashtags) {
+    console.log(hashtags)
+    let arrays = [summary, reference, hashtags.split(' ').slice(0, 5).map(s => "#" + s).join(' ')].join(' /n ');
     return arrays;
+}
+
+function referenciate(host) {
+    return `(Font: www.${host}`
 }
 
 async function readDebugPage() {
