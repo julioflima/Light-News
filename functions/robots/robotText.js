@@ -16,10 +16,11 @@ exports = module.exports = functions.https.onRequest(async (req, res) => {
     let someURL = req.body.someURL || req.query.someURL;
     let lang = req.body.lang || req.query.lang;
 
-    let bundleNews = await getFromBBC(someURL);
+    let bundleNews = await getFrom(someURL);
     let { translatedText, detectedSourceLanguage } = await getTranslationToEn(bundleNews.news);
-    let gringoSummary = await getSummarize(translatedText);
-    let gringoHashtags = await getHashtags(translatedText);
+    let sinitizedText = sanitizeNews(translatedText, bundleNews.host)
+    let gringoSummary = await getSummarize(sinitizedText);
+    let gringoHashtags = await getHashtags(sinitizedText);
     let summary = await getReTranslation(gringoSummary, lang);
     let hashtags = await getReTranslation(gringoHashtags, lang);
     let reference = await getReTranslation(referenciate(bundleNews.host), lang);
@@ -31,8 +32,8 @@ exports = module.exports = functions.https.onRequest(async (req, res) => {
     return res.send(bundleNews);
 });
 
-async function getFromBBC(someURL) {
-    let options = {
+async function getFrom(someURL) {
+    const options = {
         method: 'get',
         url: someURL,
         headers: {
@@ -47,31 +48,30 @@ async function getFromBBC(someURL) {
     // const data = await readDebugPage()
     /*****************DEBUG SCOPE*******************/
 
+    const host = request.connection._host
 
-    let host = request.connection._host
+    const url = host + request.path;
 
-    let url = host + request.path
+    return Object.assign(from(data, host), { host, url });
+}
 
-    let $ = cheerio.load(data);
-
-    let news = [];
-    $('p').each(function () {
-        news.push($(this).text());
-    });
-
-    news = news.filter((item) => {
-        return !listFilter.bbc.includes(item);
-    }).join(' ')
-
-    let imgNews = [];
-    $('img').each(function () {
-        imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
-    });
-
-    return { news, imgNews, host, url }
+function from(data, host) {
+    switch (host) {
+        case "www.bbc.com":
+            return bbc(data);
+        case "www.cnn.com":
+            return cnn(data);
+        case "www.g1.com":
+            return g1(data);
+        case "www.uol.com":
+            return g1(data);
+        default:
+            break;
+    }
 }
 
 async function getTranslationToEn(strings) {
+    let translated = [];
     let response = await new Promise((resolve, reject) => {
         googleTranslate.translate(strings, 'en', (error, translations) => {
             if (!error) {
@@ -81,20 +81,33 @@ async function getTranslationToEn(strings) {
             }
         });
     });
-    return response;
+    if (Array.isArray(strings)) {
+        response.map(s => translated.push(s.translatedText));
+        response.translatedText = translated;
+        let { detectedSourceLanguage } = await getTranslationToEn(strings.join(' '));
+        response.detectedSourceLanguage = detectedSourceLanguage;
+        return response
+    } else {
+        return response;
+    }
 }
 
 async function getReTranslation(strings, lang) {
-    let response = await new Promise((resolve, reject) => {
-        googleTranslate.translate(strings, 'en', lang, (error, translations) => {
-            if (!error) {
-                resolve(translations);
-            } else {
-                reject(error);
-            }
+    if (lang === 'en') {
+        return strings
+    }
+    else {
+        let response = await new Promise((resolve, reject) => {
+            googleTranslate.translate(strings, 'en', lang, (error, translations) => {
+                if (!error) {
+                    resolve(translations);
+                } else {
+                    reject(error);
+                }
+            });
         });
-    });
-    return response.translatedText;
+        return response.translatedText;
+    }
 }
 
 async function getSummarize(news) {
@@ -124,7 +137,7 @@ function buildCaption(summary, reference, hashtags) {
 }
 
 function referenciate(host) {
-    return `(Font: www.${host}`
+    return `(Font: www.${host})`
 }
 
 async function readDebugPage() {
@@ -149,4 +162,30 @@ async function writeDebugPage(content) {
             }
         });
     });
+}
+
+function bbc(data) {
+    let $ = cheerio.load(data);
+
+    let news = [];
+    $('p').each(function () {
+        news.push($(this).text());
+    });
+
+    let imgNews = [];
+    $('img').each(function () {
+        imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
+    });
+
+    return { news, imgNews }
+}
+
+
+function sanitizeNews(news, host) {
+    console.log(news) // Verfify if needs add some filter.
+    return news.filter((item) => {
+        return !listFilter[host].includes(item);
+    }).join(' ')
+        .replace('\"', '')
+
 }

@@ -1,20 +1,18 @@
 {
-    "bbc": [
-        "Compartilhe este post com",
+    "www.bbc.com": [
+        "Share this with",
+        "Share this post with",
         "Email",
         "Facebook",
-        "Messenger",
         "Messenger",
         "Twitter",
         "WhatsApp",
         "LinkedIn",
-        "Copiar este link",
-        "Já assistiu aos nossos novos vídeos no YouTube? Inscreva-se no nosso canal! ",
-        "Final de YouTube post 2 de BBC News Brasil",
-        "Final de YouTube post  de BBC News Brasil",
-        "Final de YouTube post 3 de BBC News Brasil",
-        "Estes são links externos e abrirão numa nova janela"
-
-      
+        "Copy this link",
+        "These are external links and will open in a new window",
+        "Have you watched our new videos on YouTube? Subscribe to our channel!",
+        "End of YouTube post from BBC News Brasil",
+        "End of YouTube post 2 of BBC News Brasil",
+        "End of YouTube post 3 from BBC News Brasil"
     ]
 }
