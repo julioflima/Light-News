@@ -58,18 +58,24 @@ async function getFrom(someURL) {
 }
 
 function from(data, host) {
+    let response
     switch (host) {
         case "www.bbc.com":
-            return fonts(data).bbc();
+            response = fonts(data).bbc();
+            break
         case "www.cnn.com":
-            return cnn(data);
+            response = fonts(data).cnn();
+            break
         case "www.g1.com":
-            return g1(data);
+            response = fonts(data).g1();
+            break
         case "www.uol.com":
-            return g1(data);
+            response = fonts(data).uol();
+            break
         default:
             break;
     }
+    return response
 }
 
 
@@ -139,15 +145,10 @@ async function getReTranslation(strings, lang) {
 }
 
 async function getSummarize(news) {
-    try {
         let response = await algorithmia
             .algo('nlp/Summarizer/0.1.8')
             .pipe(news)
         return response.get()
-    }
-    catch (error) {
-        console.log(error)
-    }
 }
 
 async function getHashtags(news) {

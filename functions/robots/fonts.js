@@ -18,6 +18,18 @@ module.exports = function (data) {
 
             return { news, imgNews }
         }
+
+        cnn() {
+
+        }
+
+        g1() {
+
+        }
+
+        uol() {
+
+        }
     }
 
     return new Fonts(data);
