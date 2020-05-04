@@ -12,6 +12,7 @@
 -  <del> Have a front end interface by an responsive web page to show the resumed news;<del>  
 -  <del> Show ad-sense on the page;<del>  
 -  <del> Catch from newsletter some updating from the pages;<del>  
+-  <del> Makes client save the summarizing in BD if was a sucess and was a known host;<del>  
 
  
 
