@@ -2,11 +2,13 @@ const functions = require('firebase-functions');
 const admin = require("firebase-admin");
 const credentials = require('../dataBank/credentials.json')
 const googleTranslate = require("google-translate")(credentials.googleTranslateKey);
-const cheerio = require('cheerio');
 const algorithmia = require("algorithmia")(credentials.algorithmiaKey);
 const listFilter = require('../dataBank/listFilter.json')
 const fs = require('fs');
 const axios = require('axios');
+
+const fonts = require('./fonts');
+
 
 exports = module.exports = functions.https.onRequest(async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
@@ -58,7 +60,7 @@ async function getFrom(someURL) {
 function from(data, host) {
     switch (host) {
         case "www.bbc.com":
-            return bbc(data);
+            return fonts(data).bbc();
         case "www.cnn.com":
             return cnn(data);
         case "www.g1.com":
@@ -170,21 +172,6 @@ function sanitizeNews(news, host) {
     return news.filter((item) => {
         return !listFilter[host].includes(item);
     }).join(' ')
-    .replace(/''/gi, '')
+        .replace(/''/gi, '')
 }
 
-function bbc(data) {
-    let $ = cheerio.load(data);
-
-    let news = [];
-    $('p').each(function () {
-        news.push($(this).text());
-    });
-
-    let imgNews = [];
-    $('img').each(function () {
-        imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
-    });
-
-    return { news, imgNews }
-}
