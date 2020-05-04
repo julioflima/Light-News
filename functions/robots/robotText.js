@@ -18,12 +18,12 @@ exports = module.exports = functions.https.onRequest(async (req, res) => {
 
     let bundleNews = await getFrom(someURL);
     let { translatedText, detectedSourceLanguage } = await getTranslationToEn(bundleNews.news);
-    let sinitizedText = sanitizeNews(translatedText, bundleNews.host)
-    let gringoSummary = await getSummarize(sinitizedText);
-    let gringoHashtags = await getHashtags(sinitizedText);
+    bundleNews.news = sanitizeNews(translatedText, bundleNews.host)
+    let gringoSummary = await getSummarize(bundleNews.news);
+    let gringoHashtags = await getHashtags(bundleNews.news);
+    let reference = await getReTranslation(getReferenciate(bundleNews.host), lang);
     let summary = await getReTranslation(gringoSummary, lang);
     let hashtags = await getReTranslation(gringoHashtags, lang);
-    let reference = await getReTranslation(referenciate(bundleNews.host), lang);
 
     bundleNews.langNews = detectedSourceLanguage;
     bundleNews.langCaption = lang;
@@ -70,6 +70,31 @@ function from(data, host) {
     }
 }
 
+
+async function readDebugPage() {
+    return await new Promise((resolve, reject) => {
+        fs.readFile('./robots/output.json', 'utf8', (err, data) => {
+            if (!err) {
+                resolve(data);
+            } else {
+                reject(err);
+            }
+        });
+    });
+}
+
+async function writeDebugPage(content) {
+    return await new Promise((resolve, reject) => {
+        fs.writeFile("./robots/output.json", content, 'utf8', (err) => {
+            if (!err) {
+                resolve();
+            } else {
+                reject(err);
+            }
+        });
+    });
+}
+
 async function getTranslationToEn(strings) {
     let translated = [];
     let response = await new Promise((resolve, reject) => {
@@ -81,6 +106,7 @@ async function getTranslationToEn(strings) {
             }
         });
     });
+
     if (Array.isArray(strings)) {
         response.map(s => translated.push(s.translatedText));
         response.translatedText = translated;
@@ -130,38 +156,21 @@ async function getHashtags(news) {
     return auto_gen_ranked_keywords.join(' ')
 }
 
-function buildCaption(summary, reference, hashtags) {
-    console.log(hashtags)
-    let arrays = [summary, reference, hashtags.split(' ').slice(0, 5).map(s => "#" + s).join(' ')].join(' /n ');
-    return arrays;
-}
-
-function referenciate(host) {
+function getReferenciate(host) {
     return `(Font: www.${host})`
 }
 
-async function readDebugPage() {
-    return await new Promise((resolve, reject) => {
-        fs.readFile('./robots/output.json', 'utf8', (err, data) => {
-            if (!err) {
-                resolve(data);
-            } else {
-                reject(err);
-            }
-        });
-    });
+function buildCaption(summary, reference, hashtags) {
+    console.log(hashtags)
+    let arrays = [summary, reference, hashtags.split(' ').slice(0, 5).map(s => "#" + s).join(' ')].join(' \n ');
+    return arrays;
 }
 
-async function writeDebugPage(content) {
-    return await new Promise((resolve, reject) => {
-        fs.writeFile("./robots/output.json", content, 'utf8', (err) => {
-            if (!err) {
-                resolve();
-            } else {
-                reject(err);
-            }
-        });
-    });
+function sanitizeNews(news, host) {
+    return news.filter((item) => {
+        return !listFilter[host].includes(item);
+    }).join(' ')
+    .replace(/''/gi, '')
 }
 
 function bbc(data) {
@@ -178,14 +187,4 @@ function bbc(data) {
     });
 
     return { news, imgNews }
-}
-
-
-function sanitizeNews(news, host) {
-    console.log(news) // Verfify if needs add some filter.
-    return news.filter((item) => {
-        return !listFilter[host].includes(item);
-    }).join(' ')
-        .replace('\"', '')
-
 }
