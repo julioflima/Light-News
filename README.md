@@ -9,9 +9,8 @@
 -  Produce Key Words with Artifical Inteligence;
 -  Referenciate the font;
 -  <del> Use Facebook API to post this news on Instagram;<del> 
--  <del> Have a front end interface by an responsive web page to show the resumed news<del>  
--  <del> Configure ad-sense to the page<del>  
-
+-  <del> Have a front end interface by an responsive web page to show the resumed news;<del>  
+-  <del> Show ad-sense on the page;<del>  
 
 
 
