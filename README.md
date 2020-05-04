@@ -11,6 +11,9 @@
 -  <del> Use Facebook API to post this news on Instagram;<del> 
 -  <del> Have a front end interface by an responsive web page to show the resumed news;<del>  
 -  <del> Show ad-sense on the page;<del>  
+-  <del> Catch from newsletter some updating from the pages;<del>  
+
+ 
 
 
 
