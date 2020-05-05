@@ -48,7 +48,7 @@ function plotConsole(result) {
 
 async function getSummarized(someURl) {
     plotConsole(`Getting from: ${someURl}`)
-    let response = await getFromCloud('robotText', { 'someURL': someURl })
+    let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
     plotConsole(response)
     return response;
 }
