@@ -12,7 +12,7 @@ const fonts = require('../robots/fonts');
 const listFilter = require('../database/listFilter.json')
 
 var self = module.exports = {
-    async  getFrom(someURL) {
+    async  getNews(someURL) {
         const options = {
             method: 'get',
             url: someURL,
@@ -22,35 +22,39 @@ var self = module.exports = {
         };
 
         const { data, request } = await axios(options)
-
+        const host = request.connection._host
+        const url = host + request.path;
         /*****************DEBUG SCOPE*******************/
         // writeDebugPage(data)
         // const data = await readDebugPage()
         /*****************DEBUG SCOPE*******************/
 
-        const host = request.connection._host
+        return { data, host, url };
+    },
 
-        const url = host + request.path;
-
-        let response;
+    getFrom(host, data) {
         switch (host) {
             case "www.bbc.com":
-                response = fonts(data).bbc();
-                break
+                return fonts(data).bbc();
             case "www.cnn.com":
-                response = fonts(data).cnn();
-                break
+                return fonts(data).cnn();
             case "www.g1.com":
-                response = fonts(data).g1();
-                break
+                return fonts(data).g1();
             case "www.uol.com":
-                response = fonts(data).uol();
-                break
-            default:
-                break;
+                return fonts(data).uol();
         }
+    },
 
-        return Object.assign(response, { host, url });
+    hostAvailable(someHost, url) {
+        let hosts = Object.keys(listFilter)
+        if (!hosts.includes(someHost)) {
+            let err = new Error()
+            err.code = 406
+            err.address = url
+            err.message = "This host is not available in this application."
+            err.info = `You could try these hosts: ${hosts}`
+            throw err
+        }
     },
 
     async  getTranslationToEn(strings) {
@@ -109,10 +113,5 @@ var self = module.exports = {
             return !listFilter[host].includes(item);
         }).join(' ')
             .replace(/&#9642/gi, '')
-    },
-
-    hostAvailable(someHost) {
-        let hosts = Object.keys(listFilter)
-        return hosts.includes(someHost)
     },
 }

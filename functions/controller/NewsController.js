@@ -1,9 +1,9 @@
 const crypto = require('crypto')
 const { Datastore } = require('@google-cloud/datastore');
 
-const { getFrom, sanitizeNews, getSummarize,
+const { getNews, getFrom, hostAvailable, sanitizeNews, getSummarize,
     getHashtags, getTranslationToEn, getReTranslation, translatedLang,
-    getReferenciate, buildCaption, hostAvailable } = require('../robots/text')
+    getReferenciate, buildCaption, } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
 const datastore = new Datastore();
@@ -19,13 +19,11 @@ module.exports = {
         //Get from user the url and the required language.
         let someURL = req.body.someURL || req.query.someURL;
         let lang = req.body.lang || req.query.lang;
-
-        //Get content of News.
-        let { news, imgNews, host, url } = await getFrom(someURL);
-
-        //Verify availabity of Host.
-        if (hostAvailable(host)) {
-            //The Orchestrator
+        //The Orchestrator
+        try {
+            let { data, host, url } = await getNews(someURL);
+            hostAvailable(host, url);
+            let { news, imgNews } = getFrom(host, data);
             let translated = await getTranslationToEn(news);
             let langCaption = translatedLang(lang, translated.lang);
             let sanitizedNews = sanitizeNews(translated.news, host)
@@ -52,38 +50,59 @@ module.exports = {
             //Return bundle to User.
             res.json(bundle)
 
-            //Jump to next level of Middleware caring the bundle.
+            //Jump to next level of Middleware carring the bundle.
             //Save in DB send the bundle to user to avoid useless traffic of bundle.
             res.locals.bundle = bundle;
             return next();
         }
-        else {
-            //Show error if is unavailable Host.
-            bundle.error = 'This host is not available in this application.'
-            res.send(bundle);
+        catch (error) {
+            //Bundle information.
+            let bundle = {
+                'url': someURL,
+                'timestamp': new Date().toJSON(),
+                'langCaption': lang,
+            }
+
+            //Send error to user.
+            res.status(error.code).json(error);
+
+            res.locals.bundle = bundle;
+            return next();
         }
     },
 
     async save(req, res, next) {
         let bundle = res.locals.bundle;
-        console.log(`Test: ${JSON.stringify(bundle)}`);
 
+        const datastore = new Datastore({
+            projectId: credentials.gcpId,
+        });
 
-        // const datastore = new Datastore({
-        //     projectId: credentials.gcpId,
-        // });
-
-        // try {
-        //     let response = await datastore.save({
-        //         key: datastore.key('Font', bundleNews.host, 'News', bundleNews.url),
-        //         data: bundleNews
-        //     });
-        //     console.log(`RESPONSE: ${response}`);
-        //     return res.end()
-        // } catch (err) {
-        //     console.error('ERROR:', err);
-        //     return res.end()
-        // }
+        if (bundle.news) {
+            // try {
+            //     let response = await datastore.save({
+            //         key: datastore.key('Error',  bundle.url),
+            //         data: bundle
+            //     });
+            //     console.log(`RESPONSE: ${response}`);
+            //     return res.end()
+            // } catch (err) {
+            //     console.error('ERROR:', err);
+            //     return res.end()
+            // }
+        } else {
+            // try {
+            //     let response = await datastore.save({
+            //         key: datastore.key('Font', bundle.host, 'News', bundle.url),
+            //         data: bundle
+            //     });
+            //     console.log(`RESPONSE: ${response}`);
+            //     return res.end()
+            // } catch (err) {
+            //     console.error('ERROR:', err);
+            //     return res.end()
+            // }
+        }
     },
 
     async index(req, res, next) {
