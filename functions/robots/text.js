@@ -55,9 +55,9 @@ var self = module.exports = {
     async  getTranslationToEn(strings) {
         let newString = strings.join('  ')
         let response = await googleTranslate(newString, { to: 'en' })
-        let translatedNews = response.text.split('  ')
-        let detectedLang = response.from.language.iso
-        return { translatedNews, detectedLang }
+        let news = response.text.split('  ')
+        let lang = response.from.language.iso
+        return { news, lang }
     },
 
     async  getReTranslation(strings, lang) {

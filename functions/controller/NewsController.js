@@ -18,23 +18,26 @@ module.exports = {
         res.set('Access-Control-Max-Age', '3600');
 
         let someURL = req.body.someURL || req.query.someURL;
-        let reqLang = req.body.lang || req.query.lang;
+        let lang = req.body.lang || req.query.lang;
 
         let bundleNews = await getFrom(someURL);
         if (hostAvailable(bundleNews.host)) {
-            let { translatedNews, detectedLang } = await getTranslationToEn(bundleNews.news);
-            let langCaption = translatedLang(reqLang, detectedLang);
-            bundleNews.news = sanitizeNews(translatedNews, bundleNews.host)
-            let gringoSummary = await getSummarize(bundleNews.news);
-            let gringoHashtags = await getHashtags(bundleNews.news);
-            let reference = await getReTranslation(getReferenciate(bundleNews.host), langCaption);
+            let translated = await getTranslationToEn(bundleNews.news);
+            let langCaption = translatedLang(lang, translated.lang);
+            let sanitizedNews = bundleNews.news = sanitizeNews(translated.news, bundleNews.host)
+            let gringoSummary = await getSummarize(sanitizedNews);
+            let gringoHashtags = await getHashtags(sanitizedNews);
+            let strutureRef = getReferenciate(bundleNews.host)
+            let reference = await getReTranslation(strutureRef, langCaption);
             let summary = await getReTranslation(gringoSummary, langCaption);
             let hashtags = await getReTranslation(gringoHashtags, langCaption);
 
-            bundleNews.langNews = detectedLang;
+            bundleNews.langNews = translated.lang;
             bundleNews.langCaption = langCaption;
             bundleNews.caption = buildCaption(summary, reference, hashtags);
+
             res.json(bundleNews)
+
             res.locals.bundleNews = bundleNews;
             return next();
         }
