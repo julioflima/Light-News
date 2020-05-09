@@ -1,6 +1,5 @@
 const credentials = require('../database/credentials.json');
 
-
 const googleTranslate = require("@vitalets/google-translate-api");
 const algorithmia = require("algorithmia")(credentials.algorithmiaKey);
 const axios = require('axios');
@@ -75,6 +74,13 @@ var self = module.exports = {
         }
     },
 
+    sanitizeNews(news, host) {
+        return news.filter((item) => {
+            return !listFilter[host].includes(item);
+        }).join(' ')
+            .replace(/&#9642/gi, '')
+    },
+
     translatedLang(reqLang, detectedLang) {
         if (!reqLang) {
             return detectedLang
@@ -106,12 +112,5 @@ var self = module.exports = {
     buildCaption(summary, reference, hashtags) {
         let arrays = [summary, reference, hashtags.split(' ').slice(0, 5).map(s => "#" + s).join(' ')].join(' \n ');
         return arrays;
-    },
-
-    sanitizeNews(news, host) {
-        return news.filter((item) => {
-            return !listFilter[host].includes(item);
-        }).join(' ')
-            .replace(/&#9642/gi, '')
     },
 }

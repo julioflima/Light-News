@@ -19,6 +19,7 @@ module.exports = {
         //Get from user the url and the required language.
         let someURL = req.body.someURL || req.query.someURL;
         let lang = req.body.lang || req.query.lang;
+
         //The Orchestrator
         try {
             let { data, host, url } = await getNews(someURL);
@@ -38,7 +39,7 @@ module.exports = {
             //Bundle information.
             let bundle = {
                 'news': sanitizedNews,
-                'imgNews': imgNews,
+                'imgNews':imgNews,
                 'host': host,
                 'url': url,
                 'timestamp': new Date().toJSON(),
@@ -72,37 +73,36 @@ module.exports = {
     },
 
     async save(req, res, next) {
+        //Get from previous level of Middleware the bundle
         let bundle = res.locals.bundle;
 
+        //Initialize client.
         const datastore = new Datastore({
             projectId: credentials.gcpId,
         });
 
-        if (bundle.news) {
-            // try {
-            //     let response = await datastore.save({
-            //         key: datastore.key('Error',  bundle.url),
-            //         data: bundle
-            //     });
-            //     console.log(`RESPONSE: ${response}`);
-            //     return res.end()
-            // } catch (err) {
-            //     console.error('ERROR:', err);
-            //     return res.end()
-            // }
-        } else {
-            // try {
-            //     let response = await datastore.save({
-            //         key: datastore.key('Font', bundle.host, 'News', bundle.url),
-            //         data: bundle
-            //     });
-            //     console.log(`RESPONSE: ${response}`);
-            //     return res.end()
-            // } catch (err) {
-            //     console.error('ERROR:', err);
-            //     return res.end()
-            // }
+        //If caption is defined save them in DB. If not occurred an error and save the link originated the error.
+        try {
+            if (bundle.caption) {
+                await datastore.upsert({
+                    key: datastore.key(['News', bundle.url, 'Font', bundle.host,]),
+                    data: bundle,
+                    excludeFromIndexes: [
+                        'news'
+                    ]
+                });
+            }
+            else {
+                await datastore.upsert({
+                    key: datastore.key('Error', bundle.url),
+                    data: bundle
+                });
+            }
+        } catch (err) {
+            console.error('ERROR:', err);
         }
+        return res.end()
+
     },
 
     async index(req, res, next) {

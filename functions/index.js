@@ -4,7 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const { errors } = require('celebrate')
 
-const routes = require('./routes')
+const routes = require('./src/routes')
 
 const app = express();
 
@@ -18,8 +18,9 @@ app.use(cors(
 ));
 
 //Routers requires and calls.
+app.use(express.json())
 app.use(routes)
-app.use(errors())
+// app.use(errors())    
 
 exports.app = functions.https.onRequest(app);
 
