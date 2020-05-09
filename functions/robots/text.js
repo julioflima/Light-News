@@ -71,7 +71,7 @@ var self = module.exports = {
     },
 
     translatedLang(reqLang, detectedLang) {
-        if (reqLang == '') {
+        if (!reqLang) {
             return detectedLang
         }
         else {

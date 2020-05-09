@@ -24,7 +24,7 @@ module.exports = {
         if (hostAvailable(bundleNews.host)) {
             let translated = await getTranslationToEn(bundleNews.news);
             let langCaption = translatedLang(lang, translated.lang);
-            let sanitizedNews = bundleNews.news = sanitizeNews(translated.news, bundleNews.host)
+            let sanitizedNews = sanitizeNews(translated.news, bundleNews.host)
             let gringoSummary = await getSummarize(sanitizedNews);
             let gringoHashtags = await getHashtags(sanitizedNews);
             let strutureRef = getReferenciate(bundleNews.host)
@@ -34,6 +34,7 @@ module.exports = {
 
             bundleNews.langNews = translated.lang;
             bundleNews.langCaption = langCaption;
+            bundleNews.news = sanitizedNews;
             bundleNews.caption = buildCaption(summary, reference, hashtags);
 
             res.json(bundleNews)
