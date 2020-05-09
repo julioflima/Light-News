@@ -265,9 +265,8 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-counter,
 .fh5co-bg {
   background: url('../images/img_bg_2.jpg') ;  
-  background-position: center; 
   background-size: cover;
-  background-position: bottom center;
+  background-position: center;
   background-repeat: no-repeat;
   position: relative;
 }

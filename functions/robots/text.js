@@ -1,15 +1,17 @@
-const credentials = require('../database/credentials.json')
+const credentials = require('../database/credentials.json');
 
-const googleTranslate = require("google-translate")(credentials.googleTranslateKey);
+
+const googleTranslate = require("@vitalets/google-translate-api");
 const algorithmia = require("algorithmia")(credentials.algorithmiaKey);
 const axios = require('axios');
-const cheerio = require('cheerio');
 
-const { readDebugPage, writeDebugPage } = require('../debug/debug')
+const { readDebugPage, writeDebugPage } = require('../debug/debug');
+const fonts = require('../robots/fonts');
+
 
 const listFilter = require('../database/listFilter.json')
 
-module.exports = {
+var self = module.exports = {
     async  getFrom(someURL) {
         const options = {
             method: 'get',
@@ -48,30 +50,14 @@ module.exports = {
                 break;
         }
 
-        return Object.assign(from(data, host), { host, url });
+        return Object.assign(response, { host, url });
     },
-
     async  getTranslationToEn(strings) {
-        let translated = [];
-        let response = await new Promise((resolve, reject) => {
-            googleTranslate.translate(strings, 'en', (error, translations) => {
-                if (!error) {
-                    resolve(translations);
-                } else {
-                    reject(error);
-                }
-            });
-        });
-
-        if (Array.isArray(strings)) {
-            response.map(s => translated.push(s.translatedText));
-            response.translatedText = translated;
-            let { detectedSourceLanguage } = await getTranslationToEn(strings.join(' '));
-            response.detectedSourceLanguage = detectedSourceLanguage;
-            return response
-        } else {
-            return response;
-        }
+        let newString = strings.join('  ')
+        let response = await googleTranslate(newString, { to: 'en' })
+        let translatedNews = response.text.split('  ')
+        let detectedLang = response.from.language.iso
+        return { translatedNews, detectedLang }
     },
 
     async  getReTranslation(strings, lang) {
@@ -79,16 +65,8 @@ module.exports = {
             return strings
         }
         else {
-            let response = await new Promise((resolve, reject) => {
-                googleTranslate.translate(strings, 'en', lang, (error, translations) => {
-                    if (!error) {
-                        resolve(translations);
-                    } else {
-                        reject(error);
-                    }
-                });
-            });
-            return response.translatedText;
+            let response = await googleTranslate(strings, { to: lang })
+            return response.text;
         }
     },
 
@@ -120,45 +98,11 @@ module.exports = {
         return news.filter((item) => {
             return !listFilter[host].includes(item);
         }).join(' ')
-            .replace(/''/gi, '')
+            .replace(/&#9642/gi, '')
     },
 
+    hostAvailable(someHost) {
+        let hosts = Object.keys(listFilter)
+        return hosts.includes(someHost)
+    },
 }
-
-function fonts(data) {
-    let news = [];
-    let imgNews = [];
-    let $ = cheerio.load(data);
-
-
-    class Fonts {
-
-        bbc() {
-            $('p').each(function () {
-                news.push($(this).text());
-            });
-
-            $('img').each(function () {
-                imgNews.push({ 'src': $(this).attr('src'), 'alt': $(this).attr('alt') })
-            });
-
-            return { news, imgNews }
-        }
-
-        cnn() {
-
-        }
-
-        g1() {
-
-        }
-
-        uol() {
-
-        }
-    }
-
-    return new Fonts(data);
-};
-
-

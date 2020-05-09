@@ -1,19 +1,25 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const app = require('express')();
+const express = require('express');
 const cors = require('cors');
+const { errors } = require('celebrate')
 
 const routes = require('./routes')
+
+const app = express();
 
 //Init firebase.
 admin.initializeApp(functions.config().firebase);
 admin.firestore().settings({ timestampsInSnapshots: true });
 
 // Automatically allow cross-origin requests
-app.use(cors());
+app.use(cors(
+    // origin: ''
+));
 
 //Routers requires and calls.
 app.use(routes)
+app.use(errors())
 
 exports.app = functions.https.onRequest(app);
 
@@ -26,7 +32,7 @@ exports.app = functions.https.onRequest(app);
 * DELETE: Deletar umas informação no back-end.
 */
 
-/** 
+/**
 *
 *
 * Query Params: Parâmetros nomeados enviados na rota após "?" (filtros, paginação).

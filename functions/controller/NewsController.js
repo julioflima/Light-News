@@ -1,12 +1,14 @@
 const crypto = require('crypto')
 
-const { Datastore } = require('@google-Xcloud/datastore');
+const { Datastore } = require('@google-cloud/datastore');
 
 const { getFrom, getTranslationToEn, sanitizeNews, getSummarize,
-    getHashtags, getReTranslation, getReferenciate, buildCaption } = require('..robots/text')
+    getHashtags, getReTranslation, getReferenciate, buildCaption, hostAvailable } = require('../robots/text')
+const credentials = require('../database/credentials.json')
 
 
 const datastore = new Datastore();
+
 
 module.exports = {
     async create(req, res, next) {
@@ -16,19 +18,18 @@ module.exports = {
 
         let someURL = req.body.someURL || req.query.someURL;
         let lang = req.body.lang || req.query.lang;
-        let hosts = Object.keys(listFilter)
 
         let bundleNews = await getFrom(someURL);
-        if (hosts.includes(bundleNews.host)) {
-            let { translatedText, detectedSourceLanguage } = await getTranslationToEn(bundleNews.news);
-            bundleNews.news = sanitizeNews(translatedText, bundleNews.host)
+        if (hostAvailable(bundleNews.host)) {
+            let { translatedNews, detectedLang } = await getTranslationToEn(bundleNews.news);
+            bundleNews.news = sanitizeNews(translatedNews, bundleNews.host)
             let gringoSummary = await getSummarize(bundleNews.news);
             let gringoHashtags = await getHashtags(bundleNews.news);
             let reference = await getReTranslation(getReferenciate(bundleNews.host), lang);
             let summary = await getReTranslation(gringoSummary, lang);
             let hashtags = await getReTranslation(gringoHashtags, lang);
 
-            bundleNews.langNews = detectedSourceLanguage;
+            bundleNews.langNews = detectedLang;
             bundleNews.langCaption = lang;
             bundleNews.caption = buildCaption(summary, reference, hashtags);
             res.json(bundleNews)
@@ -42,24 +43,31 @@ module.exports = {
     },
 
     async save(req, res, next) {
-        console.log('save in DB');
-        // if (res.statusCode === 200) {
-        //     let bundleNews = res.locals.bundleNews;
-        //     bundleNews.timestamp = new Date().toJSON();
+        if (res.statusCode === 200) {
+            console.log('Saving in DB...');
 
-        //     try {
-        //         await datastore.save({
-        //             key: datastore.key('news'),
-        //             data: bundleNews
-        //         });
-        //         console.log(`Task ${taskKey.id} created successfully.`);
-        //         return res.end()
+            let bundleNews = res.locals.bundleNews;
+            bundleNews.timestamp = new Date().toJSON();
 
-        //     } catch (err) {
-        //         console.error('ERROR:', err);
-        //         return res.end()
-        //     }
-        // }
+            console.log(`Test: ${bundleNews}`);
+
+
+            // const datastore = new Datastore({
+            //     projectId: credentials.gcpId,
+            // });
+
+            // try {
+            //     let response = await datastore.save({
+            //         key: datastore.key('Font', bundleNews.host, 'News', bundleNews.url),
+            //         data: bundleNews
+            //     });
+            //     console.log(`RESPONSE: ${response}`);
+            //     return res.end()
+            // } catch (err) {
+            //     console.error('ERROR:', err);
+            //     return res.end()
+            // }
+        }
     },
 
     async index(req, res, next) {
