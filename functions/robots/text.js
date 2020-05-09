@@ -70,6 +70,15 @@ var self = module.exports = {
         }
     },
 
+    translatedLang(reqLang, detectedLang) {
+        if (reqLang == '') {
+            return detectedLang
+        }
+        else {
+            return reqLang
+        }
+    },
+
     async  getSummarize(news) {
         let response = await algorithmia
             .algo('nlp/Summarizer/0.1.8')

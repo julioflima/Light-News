@@ -2,8 +2,9 @@ const crypto = require('crypto')
 
 const { Datastore } = require('@google-cloud/datastore');
 
-const { getFrom, getTranslationToEn, sanitizeNews, getSummarize,
-    getHashtags, getReTranslation, getReferenciate, buildCaption, hostAvailable } = require('../robots/text')
+const { getFrom, sanitizeNews, getSummarize,
+    getHashtags, getTranslationToEn, getReTranslation, translatedLang,
+    getReferenciate, buildCaption, hostAvailable } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
 
@@ -17,20 +18,21 @@ module.exports = {
         res.set('Access-Control-Max-Age', '3600');
 
         let someURL = req.body.someURL || req.query.someURL;
-        let lang = req.body.lang || req.query.lang;
+        let reqLang = req.body.lang || req.query.lang;
 
         let bundleNews = await getFrom(someURL);
         if (hostAvailable(bundleNews.host)) {
             let { translatedNews, detectedLang } = await getTranslationToEn(bundleNews.news);
+            let langCaption = translatedLang(reqLang, detectedLang);
             bundleNews.news = sanitizeNews(translatedNews, bundleNews.host)
             let gringoSummary = await getSummarize(bundleNews.news);
             let gringoHashtags = await getHashtags(bundleNews.news);
-            let reference = await getReTranslation(getReferenciate(bundleNews.host), lang);
-            let summary = await getReTranslation(gringoSummary, lang);
-            let hashtags = await getReTranslation(gringoHashtags, lang);
+            let reference = await getReTranslation(getReferenciate(bundleNews.host), langCaption);
+            let summary = await getReTranslation(gringoSummary, langCaption);
+            let hashtags = await getReTranslation(gringoHashtags, langCaption);
 
             bundleNews.langNews = detectedLang;
-            bundleNews.langCaption = lang;
+            bundleNews.langCaption = langCaption;
             bundleNews.caption = buildCaption(summary, reference, hashtags);
             res.json(bundleNews)
             res.locals.bundleNews = bundleNews;
