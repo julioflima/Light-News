@@ -52,6 +52,7 @@ var self = module.exports = {
 
         return Object.assign(response, { host, url });
     },
+
     async  getTranslationToEn(strings) {
         let newString = strings.join('  ')
         let response = await googleTranslate(newString, { to: 'en' })

@@ -1,5 +1,4 @@
 const crypto = require('crypto')
-
 const { Datastore } = require('@google-cloud/datastore');
 
 const { getFrom, sanitizeNews, getSummarize,
@@ -7,73 +6,84 @@ const { getFrom, sanitizeNews, getSummarize,
     getReferenciate, buildCaption, hostAvailable } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
-
 const datastore = new Datastore();
 
 
 module.exports = {
     async create(req, res, next) {
+        //Define cors and max timout.
         res.set('Access-Control-Allow-Origin', '*');
-        res.set('Access-Control-Allow-Credentials', 'true'); // vital
+        res.set('Access-Control-Allow-Credentials', 'true');
         res.set('Access-Control-Max-Age', '3600');
 
+        //Get from user the url and the required language.
         let someURL = req.body.someURL || req.query.someURL;
         let lang = req.body.lang || req.query.lang;
 
-        let bundleNews = await getFrom(someURL);
-        if (hostAvailable(bundleNews.host)) {
-            let translated = await getTranslationToEn(bundleNews.news);
+        //Get content of News.
+        let { news, imgNews, host, url } = await getFrom(someURL);
+
+        //Verify availabity of Host.
+        if (hostAvailable(host)) {
+            //The Orchestrator
+            let translated = await getTranslationToEn(news);
             let langCaption = translatedLang(lang, translated.lang);
-            let sanitizedNews = sanitizeNews(translated.news, bundleNews.host)
+            let sanitizedNews = sanitizeNews(translated.news, host)
             let gringoSummary = await getSummarize(sanitizedNews);
             let gringoHashtags = await getHashtags(sanitizedNews);
-            let strutureRef = getReferenciate(bundleNews.host)
+            let strutureRef = getReferenciate(host)
             let reference = await getReTranslation(strutureRef, langCaption);
             let summary = await getReTranslation(gringoSummary, langCaption);
             let hashtags = await getReTranslation(gringoHashtags, langCaption);
+            let caption = buildCaption(summary, reference, hashtags);
 
-            bundleNews.langNews = translated.lang;
-            bundleNews.langCaption = langCaption;
-            bundleNews.news = sanitizedNews;
-            bundleNews.caption = buildCaption(summary, reference, hashtags);
+            //Bundle information.
+            let bundle = {
+                'news': sanitizedNews,
+                'imgNews': imgNews,
+                'host': host,
+                'url': url,
+                'timestamp': new Date().toJSON(),
+                'langNews': translated.lang,
+                'langCaption': langCaption,
+                'caption': caption
+            }
 
-            res.json(bundleNews)
+            //Return bundle to User.
+            res.json(bundle)
 
-            res.locals.bundleNews = bundleNews;
+            //Jump to next level of Middleware caring the bundle.
+            //Save in DB send the bundle to user to avoid useless traffic of bundle.
+            res.locals.bundle = bundle;
             return next();
         }
         else {
-            bundleNews.error = 'This host is not available in this application.'
-            res.send(bundleNews);
+            //Show error if is unavailable Host.
+            bundle.error = 'This host is not available in this application.'
+            res.send(bundle);
         }
     },
 
     async save(req, res, next) {
-        if (res.statusCode === 200) {
-            console.log('Saving in DB...');
-
-            let bundleNews = res.locals.bundleNews;
-            bundleNews.timestamp = new Date().toJSON();
-
-            console.log(`Test: ${bundleNews}`);
+        let bundle = res.locals.bundle;
+        console.log(`Test: ${JSON.stringify(bundle)}`);
 
 
-            // const datastore = new Datastore({
-            //     projectId: credentials.gcpId,
-            // });
+        // const datastore = new Datastore({
+        //     projectId: credentials.gcpId,
+        // });
 
-            // try {
-            //     let response = await datastore.save({
-            //         key: datastore.key('Font', bundleNews.host, 'News', bundleNews.url),
-            //         data: bundleNews
-            //     });
-            //     console.log(`RESPONSE: ${response}`);
-            //     return res.end()
-            // } catch (err) {
-            //     console.error('ERROR:', err);
-            //     return res.end()
-            // }
-        }
+        // try {
+        //     let response = await datastore.save({
+        //         key: datastore.key('Font', bundleNews.host, 'News', bundleNews.url),
+        //         data: bundleNews
+        //     });
+        //     console.log(`RESPONSE: ${response}`);
+        //     return res.end()
+        // } catch (err) {
+        //     console.error('ERROR:', err);
+        //     return res.end()
+        // }
     },
 
     async index(req, res, next) {
