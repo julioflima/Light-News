@@ -6,6 +6,14 @@ var contact = document.getElementById('fh5co-contact');
 var search = document.getElementById('search');
 var docId;
 
+const dinamicPath = [
+    "index.html",
+    "js/main/lightNews.js",
+    "/css/style.css",
+    "/css/neon.css",
+];
+const timeUpdate = 15000;
+
 if (somethingToRise) {
     somethingToRise.addEventListener("keyup", function (e) {
         e.preventDefault();

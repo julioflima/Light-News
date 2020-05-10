@@ -3,11 +3,13 @@
 
 <head>
 	<meta charset="utf-8">
+	<!-- <meta http-equiv="refresh" content="1"> -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Light news</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Generate video about something." />
-	<meta name="keywords" content="Light News, light, news, , ai, watson, something, to, summarize," />
+	<meta name="description"
+		content="The idea it's provide an fast read about an news fullfilled with junkie text and contextualize with some photo caught from the font." />
+	<meta name="keywords" content="Light News, light, news, , ai, something, to, summarize," />
 	<meta name="author" content="Julio Lima" />
 
 	<link rel="shortcut icon" type="image/png" href="images/pick-color.png" />
@@ -23,19 +25,20 @@
 	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
 	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Fonts Awesome Fonts-->
+	<link rel="stylesheet" href="css/all.css">
 	<!-- Bootstrap  -->
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<!-- Theme style  -->
 	<link rel="stylesheet" href="css/style.css">
 	<!-- Neon style  -->
 	<link rel="stylesheet" href="css/neon.css">
-
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
 
 </head>
 
-<body>
+<body onload="">
 
 	<div class="fh5co-loader"></div>
 
@@ -51,18 +54,19 @@
 						</ul>
 					</div>
 					<div class="logo text-center">
-						<div id="fh5co-logo">
-							Light News
-							<img src="images/pick.png" height="50px">
-							</a></div>
+						<div style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+							unselectable="on" onselectstart="return false;" onmousedown="return false;" id="fh5co-logo">
+							<p><a>Light News</a></p>
+							</a>
+						</div>
+
 					</div>
-					<br>
 					<div class=" right-menu text-left menu-1">
 						<ul>
 							<li class="has-dropdown">
 								<a onClick="showContact()" href="#fh5co-contact">Contact</a>
 								<ul class="dropdown">
-									<li><a href="+5585998614541">Whatsapp</a></li>
+									<li><a href="tel:+5585998614541">Whatsapp</a></li>
 									<li><a href="https://www.facebook.com/julioflima">Facebook</a></li>
 									<li><a href="https://www.linkedin.com/in/julioflima">Linkedin</a></li>
 									<li><a href="https://github.com/juloko">Github</a></li>
@@ -91,10 +95,11 @@
 								<div class="row">
 									<fieldset id="search">
 										<div class="form-inline" id="fh5co-header-subscribe">
-											<div class="col-md-6 col-md-offset-3">
+											<div class="col-md-8 col-md-offset-2">
 												<div class="form-group">
 													<input type="text" class="form-control" id="somethingToRise"
-														placeholder="some URL to summarize..." value="https://www.bbc.com/portuguese/internacional-52485030">
+														placeholder="some URL to summarize..."
+														value="https://www.bbc.com/portuguese/internacional-52485030">
 													<button id="mineNow" class="btn btn-default">News Now </button>
 
 												</div>
@@ -156,10 +161,41 @@
 							<div class="fh5co-contact-info">
 								<h3>Contact Information</h3>
 								<ul>
-									<li class="address">Dr. Justa Araujo 1408,<br> Fortaleza, CE, Brazil</li>
-									<li class="phone"><a href="tel://1234567920">+55 85 9 9861 4541</a></li>
-									<li class="email"><a
-											href="mailto:julio_flima@hotmail.com">julio_flima@hotmail.com</a></li>
+									<li><a href="https://www.instagram.com/julio.flima/">
+											<i class="fab fa-instagram"></i>
+											<span>@julio.flima</span>
+										</a>
+									</li>
+									<li><a href="https://www.facebook.com/julioflima">
+											<i class="fab fa-facebook-f"></i>
+											<span>@julioflima</span>
+										</a>
+									</li>
+									<li><a href="https://www.linkedin.com/in/julioflima/">
+											<i class="fab fa-linkedin-in"></i>
+											<span>@julioflima</span>
+										</a>
+									</li>
+									<li><a href="https://github.com/juloko">
+											<i class="fab fa-github-alt"></i>
+											<span>@juloko</span>
+										</a>
+									</li>
+									<li><a href="tel:+5585998614541">
+											<i class="fab fa-whatsapp"></i>
+											<span>+55 85 9 9861 4541</span>
+										</a>
+									</li>
+									<li><a href="mailto:julio_flima@hotmail.com?subject=Hi, I've been seen Light News">
+											<i class="far fa-envelope"></i>
+											<span>julio_flima@hotmail.com</span>
+										</a>
+									</li>
+									<li><a href="https://goo.gl/maps/dExy3wE2tvCFJbzt6">
+											<i class="fa fa-map-marked-alt" aria-hidden="true"></i>
+											<span>Dr. Justa Araujo 1408,<br> Fortaleza, CE, Brazil</span>
+										</a>
+									</li>
 								</ul>
 							</div>
 						</div>
@@ -168,37 +204,25 @@
 							<h3>Get In Touch</h3>
 							<form action="#">
 								<div class="row form-group">
-									<div class="col-md-6">
+									<div class="col-md-12">
 										<!-- <label for="fname">First Name</label> -->
-										<input type="text" id="fname" class="form-control" placeholder="Your firstname">
+										<input type="text" id="fname" class="form-control" placeholder="Your name.">
 									</div>
-									<div class="col-md-6">
-										<!-- <label for="lname">Last Name</label> -->
-										<input type="text" id="lname" class="form-control" placeholder="Your lastname">
-									</div>
-								</div>
 
+								</div>
 								<div class="row form-group">
 									<div class="col-md-12">
 										<!-- <label for="email">Email</label> -->
-										<input type="text" id="email" class="form-control"
-											placeholder="Your email address">
+										<input type="text" id="email" class="form-control" placeholder="Your contact.">
 									</div>
 								</div>
 
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="subject">Subject</label> -->
-										<input type="text" id="subject" class="form-control"
-											placeholder="Your subject of this message">
-									</div>
-								</div>
 
 								<div class="row form-group">
 									<div class="col-md-12">
 										<!-- <label for="message">Message</label> -->
 										<textarea name="message" id="message" cols="30" rows="10" class="form-control"
-											placeholder="Say something about us"></textarea>
+											placeholder="Say something."></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -218,17 +242,29 @@
 			<div class="row copyright">
 				<div class="col-md-12 text-center">
 					<p>
-						<small class="block"> 2019 | Julio Lima | All Rights Reserved.</small>
+						<small class="block"> Developed in Quarantine of 2020 | Julio Lima | Rights Not
+							Reserved.</small>
 					</p>
 					<p>
 						<ul class="fh5co-social-icons">
-							<li><a href="#"><i class="icon-youtube"></i></a></li>
-							<li><a href="https://www.facebook.com/julioflima"><i class="icon-facebook"></i></a></li>
-							<li><a href="https://www.linkedin.com/in/julioflima/"><i class="icon-linkedin"></i></a>
+							<li><a href="https://www.instagram.com/julio.flima/"><i class="fab fa-instagram"></i></a>
 							</li>
-							<li><a href="https://github.com/juloko"><i class="icon-github"></i></a></li>
-							<li><a href="mailto:julio_flima@hotmail.com?subject=Hi"><i class="icon-email"></i></a>
+							<li><a href="https://www.facebook.com/julioflima"><i class="fab fa-facebook-f"></i></a>
 							</li>
+							<li><a href="https://www.linkedin.com/in/julioflima/"><i class="fab fa-linkedin-in"></i></a>
+							</li>
+							<li><a href="https://github.com/juloko"><i class="fab fa-github-alt"></i></a></li>
+							<li><a href="tel:+5585998614541"><i class="fab fa-whatsapp"></i></a></li>
+							<li><a href="mailto:julio_flima@hotmail.com?subject=Hi"><i class="far fa-envelope"></i></a>
+							</li>
+							<li><a href="https://goo.gl/maps/dExy3wE2tvCFJbzt6">
+									<i class="fa fa-map-marked-alt" aria-hidden="true"></i>
+								</a>
+							</li>
+
+
+
+
 						</ul>
 					</p>
 				</div>
@@ -261,6 +297,7 @@
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 		</script>
+
 		<!-- jQuery -->
 		<script src="js/plugins/jquery.min.js"></script>
 		<!-- jQuery Easing -->
@@ -273,6 +310,9 @@
 		<script src="js/plugins/main.js"></script>
 		<!-- Main -->
 		<script src="js/main/lightNews.js"></script>
+		<script src="js/main/animate.js"></script>
+		<!-- Live Preview for Firebase -->
+		<script src="js/Fire-Preview/firePreview.js"></script>
 		<!-- Google Map -->
 		<script
 			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8YFxNVj9NiLyYqKxmpBoFTBeSD-6NH5I&language=EN"></script>

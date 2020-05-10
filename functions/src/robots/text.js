@@ -32,16 +32,27 @@ var self = module.exports = {
     },
 
     getFrom(host, data) {
+        let response
+
         switch (host) {
-            case "www.bbc.com":
-                return fonts(data).bbc();
+            case "www.bbc.com": {
+                response = fonts(data).bbc();
+                break
+            }
             case "www.cnn.com":
-                return fonts(data).cnn();
-            case "www.g1.com":
-                return fonts(data).g1();
-            case "www.uol.com":
-                return fonts(data).uol();
+                response = fonts(data).cnn(); {
+                    break
+                }
+            case "www.g1.com": {
+                response = fonts(data).g1();
+                break
+            }
+            case "www.uol.com": {
+                response = fonts(data).uol();
+                break
+            }
         }
+        return response;
     },
 
     hostAvailable(someHost, url) {

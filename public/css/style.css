@@ -10,18 +10,36 @@
   font-family: 'ProFont For Powerline';
   src:  url('../fonts/ProFont\ For\ Powerline.ttf');
 }
+@font-face {
+  font-family: 'Monoton';
+  src:  url('../fonts/Monoton-Regular.ttf');
+}
+
+
+:root {
+  --main-color: #e30040;
+  --second-color: #228DFF;
+  --terciary-color: #555555;
+}
+
+
+
 /* =======================================================
 *
 * 	Template Style 
 *
 * ======================================================= */
 body {
-  font-family: "Work Sans", Arial, sans-serif;
+  font-family: "ProFont For Powerline", Arial, sans-serif !important;
   font-weight: 400;
   font-size: 16px;
   line-height: 1.7;
-  color: white;
+  color: var(--terciary-color);
   background: #fff;
+}
+
+li{
+  font-family: "ProFont For Powerline", Arial, sans-serif !important;
 }
 
 #page {
@@ -52,20 +70,24 @@ body {
 }
 
 a {
-  color: #F36363;
+  color: var(--main-color);
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
 }
 a:hover, a:active, a:focus {
-  color: #F36363;
+  color: var(--main-color);
   outline: none;
   text-decoration: none;
 }
 
-p {
-  margin-bottom: 20px;
+
+a > span {
+  padding-left: 5%;
+  color:var(--terciary-color) !important;
 }
+
+
 
 h1, h2, h3, h4, h5, h6, figure {
   color: #000;
@@ -76,17 +98,17 @@ h1, h2, h3, h4, h5, h6, figure {
 
 ::-webkit-selection {
   color: #fff;
-  background: #F36363;
+  background: var(--main-color);
 }
 
 ::-moz-selection {
   color: #fff;
-  background: #F36363;
+  background: var(--main-color);
 }
 
 ::selection {
   color: #fff;
-  background: #F36363;
+  background: var(--main-color);
 }
 
 .console{
@@ -128,10 +150,12 @@ h1, h2, h3, h4, h5, h6, figure {
   top: 50vh !important;
 
 }
+
 .fh5co-nav .logo {
   width: 60%;
   float: left;
 }
+
 .fh5co-nav #fh5co-logo {
   font-size: 50px;
   margin: 0;
@@ -142,29 +166,33 @@ h1, h2, h3, h4, h5, h6, figure {
     position: relative;
 }
 
-.back{
-
-}
 @media screen and (max-width: 768px) {
   .fh5co-nav #fh5co-logo {
     top: 0vh !important;
     position: unset;
     float: left;
-    padding-left: 1vw;
-}
-  .fh5co-nav #fh5co-logo {
-    font-size: 35px;
+    padding-left: 3vw;
+    font-size: 25px !important;
+    font-size: 60px;
+  }
+  .fh5co-nav .logo {
+    width: 100% !important
+  }
+  #fh5co-logo p {
+    text-align: left;
+    }
+  .fh5co-nav a {
+    padding: 5px 10px;
+    color: #fff;
   }
 }
-.fh5co-nav a {
-  padding: 5px 10px;
-  color: #fff;
-}
+
 @media screen and (max-width: 768px) {
   .fh5co-nav .menu-1 {
     display: none;
   }
 }
+
 .fh5co-nav ul {
   padding: 0;
   margin: 7px 0 0 0;
@@ -261,14 +289,25 @@ h1, h2, h3, h4, h5, h6, figure {
   margin: 0 auto;
 }
 
+
+
+
 #fh5co-header,
 #fh5co-counter,
 .fh5co-bg {
-  background: url('../images/img_bg_2.jpg') ;  
+  background-image: url('../images/img_bg_2.jpg') ;  
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  #fh5co-header,
+#fh5co-counter,
+.fh5co-bg {
+  background-image: url('../images/img_bg_4.jpg') ;  
+}
 }
 
 .fh5co-bg {
@@ -353,7 +392,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-header .display-tc,
 #fh5co-counter .display-tc,
 .fh5co-cover .display-tc {
-  display: table-cell !important;
+  display: grid !important;
   vertical-align: middle;
 }
 #fh5co-header .display-tc h1, #fh5co-header .display-tc h2,
@@ -391,7 +430,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-counter .display-tc .btn,
 .fh5co-cover .display-tc .btn {
   padding: 15px 30px;
-  background: #F36363;
+  background: var(--main-color);
   color: #fff;
   border: none !important;
   font-size: 18px;
@@ -404,7 +443,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-header .display-tc .btn:hover,
 #fh5co-counter .display-tc .btn:hover,
 .fh5co-cover .display-tc .btn:hover {
-  background: #251f1f !important;
+  background: var(--second-color) !important;
   -webkit-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   -moz-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
@@ -513,12 +552,15 @@ h1, h2, h3, h4, h5, h6, figure {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  color: #F36363;
+  color: var(--second-color);
   padding-left: 10px;
   padding-right: 10px;
 }
 .fh5co-social-icons li a i {
-  font-size: 20px;
+  font-size: 30px;
+}
+.fh5co-contact-info li a i {
+  font-size: 25px;
 }
 
 .fh5co-contact-info ul {
@@ -532,7 +574,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: relative;
 }
 .fh5co-contact-info ul li:before {
-  color: #F36363;
+  color: var(--main-color);
   position: absolute;
   left: 0;
   top: .05em;
@@ -592,7 +634,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .feature-center .icon i {
   font-size: 40px;
-  color: #F36363;
+  color: var(--main-color);
 }
 .feature-center p, .feature-center h3 {
   margin-bottom: 30px;
@@ -741,7 +783,7 @@ h1, h2, h3, h4, h5, h6, figure {
   padding: 2px 10px;
   padding-left: 40px;
   margin-left: -40px;
-  background: #F36363;
+  background: var(--main-color);
   position: relative;
 }
 .fh5co-blog .blog-text span.posted_on:before {
@@ -753,7 +795,7 @@ h1, h2, h3, h4, h5, h6, figure {
   height: 0;
   border-style: solid;
   border-width: 0 0 9px 9px;
-  border-color: transparent transparent #F36363 transparent;
+  border-color: transparent transparent var(--main-color) transparent;
 }
 .fh5co-blog .blog-text span.comment {
   float: right;
@@ -762,7 +804,7 @@ h1, h2, h3, h4, h5, h6, figure {
   color: rgba(0, 0, 0, 0.3);
 }
 .fh5co-blog .blog-text span.comment a i {
-  color: #F36363;
+  color: var(--main-color);
   padding-left: 7px;
 }
 .fh5co-blog .blog-text h3 {
@@ -850,7 +892,7 @@ h1, h2, h3, h4, h5, h6, figure {
   width: 56px;
   height: 56px;
   margin-top: -30px;
-  background: #F36363;
+  background: var(--main-color);
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
@@ -889,7 +931,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-started .btn {
   height: 54px;
   border: none !important;
-  background: #F36363;
+  background: var(--main-color);
   color: #fff;
   font-size: 16px;
   text-transform: uppercase;
@@ -898,9 +940,9 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-started .btn:hover {
   background: #f04242 !important;
-  -webkit-box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75) !important;
-  -moz-box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75) !important;
-  box-shadow: 0px 14px 20px -9px rgba(0, 0, 0, 0.75) !important;
+  -webkit-box-shadow: 0px 14px 20px -9px var(--second-color) !important;
+  -moz-box-shadow: 0px 14px 20px -9px var(--second-color) !important;
+  box-shadow: 0px 14px 20px -9px var(--second-color) !important;
 }
 #fh5co-started .form-inline .form-group {
   width: 100% !important;
@@ -1068,6 +1110,10 @@ h1, h2, h3, h4, h5, h6, figure {
   -o-transition: 0.5s;
   transition: 0.5s;
 }
+
+fieldset{
+  padding-top: 10% !important;
+}
 .gototop.active {
   opacity: 1;
   visibility: visible;
@@ -1221,9 +1267,10 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .btn-primary {
-  background: #F36363;
+  background: var(--main-color);
   color: #fff;
-  border: 2px solid #F36363;
+  border: 2px solid var(--main-color);
+  border-bottom-left-radius: 0px !important;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
   background: #f57b7b !important;
@@ -1231,11 +1278,11 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .btn-primary.btn-outline {
   background: transparent;
-  color: #F36363;
-  border: 2px solid #F36363;
+  color: var(--main-color);
+  border: 2px solid var(--main-color);
 }
 .btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
-  background: #F36363;
+  background: var(--main-color);
   color: #fff;
 }
 
@@ -1364,7 +1411,7 @@ h1, h2, h3, h4, h5, h6, figure {
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: #F36363;
+  border-color: var(--main-color);
 }
 
 .row-pb-md {
@@ -1396,7 +1443,6 @@ h1, h2, h3, h4, h5, h6, figure {
   position: absolute;
   top: 0;
   right: 10px;
-  border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
 }
 
