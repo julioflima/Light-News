@@ -18,8 +18,9 @@
 
 :root {
   --main-color: #e30040;
-  --second-color: #228DFF;
+  --second-color: #2ab0ed;
   --terciary-color: #555555;
+  --quaternary-color: #0ae;
 }
 
 
@@ -29,6 +30,12 @@
 * 	Template Style 
 *
 * ======================================================= */
+
+html {
+}
+
+
+
 body {
   font-family: "ProFont For Powerline", Arial, sans-serif !important;
   font-weight: 400;
@@ -36,7 +43,30 @@ body {
   line-height: 1.7;
   color: var(--terciary-color);
   background: #fff;
+  overflow-x: hidden;
+
 }
+#scrollbar{
+}
+::-webkit-scrollbar-track
+{
+	background-color: #F5F5F5;
+	border-radius: 1px;
+}
+::-webkit-scrollbar
+{
+	width: 1.3rem;
+	background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #0ae;
+	background-image: -webkit-gradient(linear, 0 0, 0 100%,
+	                   color-stop(.5, rgba(255, 255, 255, .2)),
+					   color-stop(.5, transparent), to(transparent));
+}
+
 
 li{
   font-family: "ProFont For Powerline", Arial, sans-serif !important;
@@ -444,6 +474,14 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-counter .display-tc .btn:hover,
 .fh5co-cover .display-tc .btn:hover {
   background: var(--second-color) !important;
+  -webkit-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
+  -moz-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
+  box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
+}
+#fh5co-header .display-tc .btn:focus,
+#fh5co-counter .display-tc .btn:focus,
+.fh5co-cover .display-tc .btn:focus {
+  background: var(--quaternary-color) !important;
   -webkit-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   -moz-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;

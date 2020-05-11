@@ -15,7 +15,7 @@ a {
 
   p:nth-child(1) a {
     font-size: 1.5em;
-    color: #228DFF;
+    color: var(--second-color);
     font-family: Monoton;
   }
   

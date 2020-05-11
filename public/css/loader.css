@@ -15,7 +15,12 @@
 }
 
 .pace .pace-progress {
-	background: #e30040;
+	background: -webkit-linear-gradient(left,
+	#e4f5fc 0%,
+	  #bfe8f9 25%,
+#9fd8ef 50%,
+	  #9fd8ef 75%,
+	  #2ab0ed 100%);
 	position: fixed;
 	z-index: 9999;
 	top: 0;
