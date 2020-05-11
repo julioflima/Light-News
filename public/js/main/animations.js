@@ -1,6 +1,14 @@
-animateDashboard("model.html")
+animateDashboard("news/model.html")
 
-lightOut(); 
+lightOut();
+
+let scrollPosition = 0;
+
+$("#page").scroll(() => {
+    let b = document.getElementById('page').scrollHeight - document.getElementById('page').clientHeight;
+    let a = document.getElementById('page').scrollTop;
+    scrollPosition = a / b;
+});
 
 function changeBg() {
     let actualBg = Math.floor(Math.random() * 3) + 2;
@@ -17,11 +25,21 @@ function lightOut() {
     $("p a").css('animation', animation)
 }
 
-function animateDashboard(page) {
+function animateDashboard(page, id = '#fh5co-project') {
     $.when(
-        $.get(page, function (data) {
-            $('#fh5co-project').html(data);
+        $.get(page, (data) => {
+            $(id).append(data);
         })
-    ).done(function () {
+    ).done(() => {
+    });
+}
+
+async function getStruture(page) {
+    return await new Promise((resolve, reject) => {
+        $.when(
+            $.get(page)
+        ).done((data) => {
+            resolve(data);
+        });
     });
 }

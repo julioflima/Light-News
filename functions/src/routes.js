@@ -15,4 +15,21 @@ routes.post("/robotNews", celebrate({
 
 routes.post("/robotNews", NewsController.save)
 
+
+routes.get("/robotNews", celebrate({
+    [Segments.BODY]:
+        Joi.object().keys({
+            pageCursor: Joi.string(),
+        })
+}), NewsController.index)
+
+routes.delete("/robotNews", celebrate({
+    [Segments.BODY]:
+        Joi.object().keys({
+            news: Joi.string(),
+            font: Joi.string(),
+        })
+}), NewsController.delete)
+
+
 module.exports = routes

@@ -6,8 +6,10 @@ const { getNews, getFrom, hostAvailable, sanitizeNews, getSummarize,
     getReferenciate, buildCaption, } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
-const datastore = new Datastore();
-
+//Initialize client.
+const datastore = new Datastore({
+    projectId: credentials.gcpId,
+});
 
 module.exports = {
     async create(req, res, next) {
@@ -39,13 +41,15 @@ module.exports = {
             //Bundle information.
             let bundle = {
                 'news': sanitizedNews,
-                'imgNews':imgNews,
+                'imgNews': imgNews,
                 'host': host,
                 'url': url,
-                'timestamp': new Date().toJSON(),
+                'timestamp': new Date(),
                 'langNews': translated.lang,
                 'langCaption': langCaption,
-                'caption': caption
+                'caption': caption,
+                'summary': summary,
+                'hashtags': hashtags
             }
 
             //Return bundle to User.
@@ -60,7 +64,7 @@ module.exports = {
             //Bundle information.
             let bundle = {
                 'url': someURL,
-                'timestamp': new Date().toJSON(),
+                'timestamp': new Date(),
                 'langCaption': lang,
             }
 
@@ -76,15 +80,10 @@ module.exports = {
         //Get from previous level of Middleware the bundle
         let bundle = res.locals.bundle;
 
-        //Initialize client.
-        const datastore = new Datastore({
-            projectId: credentials.gcpId,
-        });
-
         //If caption is defined save them in DB. If not occurred an error and save the link originated the error.
         try {
             if (bundle.caption) {
-                await datastore.upsert({
+                await datastore.save({
                     key: datastore.key(['News', bundle.url, 'Font', bundle.host,]),
                     data: bundle,
                     excludeFromIndexes: [
@@ -93,7 +92,7 @@ module.exports = {
                 });
             }
             else {
-                await datastore.upsert({
+                await datastore.save({
                     key: datastore.key('Error', bundle.url),
                     data: bundle
                 });
@@ -106,47 +105,29 @@ module.exports = {
     },
 
     async index(req, res, next) {
-        // const { page = 1 } = req.query;
+        const { pageCursor } = req.body;
 
-        // const count = await connection('incidents').count().first();
+        let query = datastore.createQuery('Font')
+            .order('timestamp', {
+                descending: true,
+            })
+            .limit(5);
 
-        // const incidents = await connection('incidents')
-        //     .join('ongs', 'ongs.id', '=', 'incidents.ong_id')
-        //     .limit(5)
-        //     .offset((page - 1) * 5)
-        //     .select(
-        //         'incidents.*',
-        //         'ongs.name',
-        //         'ongs.email',
-        //         'ongs.whatsapp',
-        //         'ongs.city',
-        //         'ongs.uf');
+        if (pageCursor) {
+            query = query.start(pageCursor);
+        }
 
-        // res.header('X-Total-Count', count['count(*)']);
+        const results = await datastore.runQuery(query);
+        const entities = results[0];
+        const info = results[1];
 
-        // return res.json(incidents);
+        res.send(results)
     },
 
     async delete(req, res, next) {
-        //     const { id } = req.params;
-        //     const ong_id = req.headers.authorization;
-
-
-        //     const incidents = await connection('incidents')
-        //         .where('id', id)
-        //         .select('ong_id')
-        //         .first();
-
-        //     if (!incidents) {
-        //         return res.status(404).json({ error: 'Was not found that incident.' });
-        //     } else if (incidents.ong_id !== ong_id) {
-        //         return res.status(401).json({ error: 'Operation not permitted.' });
-        //     } else {
-        //         await connection('incidents')
-        //             .where('id', id)
-        //             .delete();
-
-        //         return res.status(204).send();
-        //     }
+        const { news, font } = req.body;
+        const taskKey = datastore.key(['News', news, 'Font', font]);
+        const response = await datastore.delete(taskKey);
+        res.send(response);
     }
 }
