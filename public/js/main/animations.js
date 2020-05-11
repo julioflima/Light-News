@@ -1,4 +1,4 @@
-// changeBg();
+animateDashboard("model.html")
 
 lightOut();
 
@@ -9,10 +9,19 @@ function changeBg() {
     $('#fh5co-header').css("background-image", urlName);
 }
 
-function lightOut(){
+function lightOut() {
     let animation = "neon2 1.5s ease-in-out infinite alternate"
-    $("p a").css('color',"#ffffff")
-    $("p a").css('-webkit-animation',animation)
-    $("p a").css('-moz-animation',animation)
-    $("p a").css('animation',animation)
+    $("p a").css('color', "#ffffff")
+    $("p a").css('-webkit-animation', animation)
+    $("p a").css('-moz-animation', animation)
+    $("p a").css('animation', animation)
+}
+
+function animateDashboard(page) {
+    $.when(
+        $.get(page, function (data) {
+            $('#fh5co-project').html(data);
+        })
+    ).done(function () {
+    });
 }
