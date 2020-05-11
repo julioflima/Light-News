@@ -258,13 +258,6 @@ body {
 	-webkit-text-size-adjust: none;
 }
 
-body,
-input,
-button {
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-font-smoothing: antialiased;
-}
-
 /* ------------------------------------------------------------------- 
  * Media - (_basic.scss)
  * ------------------------------------------------------------------- */
@@ -296,6 +289,7 @@ strong, b {
 	line-height: inherit;
 }
 small {
+	font-size: 1.5rem;
 	padding: 5%;
 	line-height: inherit;
 }

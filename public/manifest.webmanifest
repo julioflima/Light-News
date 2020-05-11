@@ -1,0 +1,22 @@
+{
+    "short_name": "Light News",
+    "name": "Light News",
+    "description": "Provide an fast read about an news.",
+    "icons": [
+        {
+            "src": "images/pick-color.png",
+            "type": "image/png",
+            "sizes": "932x981"
+        },
+        {
+            "src": "images/pick.png",
+            "type": "image/png",
+            "sizes": "932x981"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#228DFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#e30040"
+}

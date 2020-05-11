@@ -1,19 +1,25 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 
 <head>
+	<div id="preloader">
+		<div id="loader"></div>
+	</div>
 	<title>Light news</title>
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description"
+	<meta name="Description"
 		content="The idea it's provide an fast read about an news fullfilled with junkie text and contextualize with some photo caught from the font." />
 	<meta name="keywords" content="Light News, light, news, , ai, something, to, summarize," />
 	<meta name="author" content="Julio Lima" />
 
 	<!-- MOBILE SPECIFIC METAS -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#228DFF" />
+	<link rel="manifest" href="/manifest.json">
+
 
 	<!-- FONTS -->
 	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,400italic,700' rel='stylesheet'
@@ -24,40 +30,43 @@
 		rel='stylesheet' type='text/css'>
 
 	<!-- CSS -->
+	<!-- Loader-->
+	<link rel="stylesheet" href="css/loader.css">
 	<!-- Icomoon Icon Fonts-->
 	<link rel="stylesheet" href="css/icomoon.css">
 	<!-- Fonts Awesome Fonts-->
 	<link rel="stylesheet" href="css/all.css">
 	<!-- Bootstrap  -->
 	<link rel="stylesheet" href="css/bootstrap.css">
-	<!-- Theme style  -->
-	<!-- <link rel="stylesheet" href="css/style.css"> -->
-	<!-- Neon style  -->
-	<!-- <link rel="stylesheet" href="css/neon.css"> -->
-	<!-- Vendors  -->
-	<!-- <link rel="stylesheet" href="css/vendor.css"> -->
-	<!-- Abstract  -->
-	<!-- <link rel="stylesheet" href="css/abstract.css"> -->
-	<!-- Abstract Base -->
-	<!-- <link rel="stylesheet" href="css/base.css"> -->
-
+	<!-- Theme s tyle  -->
+	<link rel="stylesheet" href="css/style.css">
+	<!-- Neon s tyle  -->
+	<link rel="stylesheet" href="css/neon.css">
+	<!-- Abtract Base  -->
+	<link rel="stylesheet" href="css/base.css">
+	<!-- Vendor Plugins  -->
+	<link rel="stylesheet" href="css/vendor.css">
+	<!-- Abtract   -->
+	<link rel="stylesheet" href="css/abstract.css">
 
 	<!-- SCRIPT -->
 	<!-- Modernizr JS -->
-	<script src=" js/plugins/modernizr.js">
-	</script>
+	<script src=" js/plugins/modernizr.js"></script>
 	<!-- Pace -->
 	<script src="js/plugins/pace.min.js"></script>
+	<script src="js/plugins/loader.js"></script>
 
 	<!-- FAVICONS -->
 	<link rel="shortcut icon" type="image/png" href="images/pick-color.png" />
 	<link rel="icon" type="image/png" href="images/pick-color.png">
+	<link rel="apple-touch-icon" type="image/png" href="images/pick-color.png">
 
 </head>
 
 <body onload="">
 
-	<div class="fh5co-loader"></div>
+
+	<!-- <div class="fh5co-loader"></div> -->
 
 	<div id="page">
 		<nav class="fh5co-nav" role="navigation">
@@ -105,25 +114,20 @@
 			<div class="container">
 
 				<div class="row">
-					<div class="col-md-10 col-md-offset-1 text-center">
-						<div class="display-t">
-							<div class="display-tc animate-box" data-animate-effect="fadeIn">
-								<h1></h1>
-								<div class="row">
-									<fieldset id="search">
-										<div class="form-inline" id="fh5co-header-subscribe">
-											<div class="col-md-8 col-md-offset-2">
-												<div class="form-group">
-													<input type="text" class="form-control" id="somethingToRise"
-														placeholder="some URL to summarize..."
-														value="https://www.bbc.com/portuguese/internacional-52485030">
-													<button id="mineNow" class="btn btn-default">News Now </button>
+					<div class="display-t">
+						<div class="display-tc animate-box" data-animate-effect="fadeIn">
+							<div class="row">
+								<fieldset id="search">
+									<div class="form-inline" id="fh5co-header-subscribe">
+										<div class="form-group">
+											<input type="text" class="form-control" id="somethingToRise"
+												placeholder="some URL to summarize..."
+												value="https://www.bbc.com/portuguese/internacional-52485030">
+											<button id="mineNow" class="btn btn-default">News Now </button>
 
-												</div>
-											</div>
 										</div>
-									</fieldset>
-								</div>
+									</div>
+								</fieldset>
 							</div>
 						</div>
 					</div>
@@ -318,14 +322,13 @@
 		<script src="js/main/lightNews.js"></script>
 		<!-- Main -->
 		<script src="js/main/animations.js"></script>
-		<!-- HTML5 Placeholder jQuery Plugin -->
-		<script src="js/plugins/plugins.js"></script>
 		<!-- Abstract -->
 		<script src="js/plugins/abstract.js"></script>
 		<!-- Live Preview for Firebase -->
 		<script src="js/Fire-Preview/firePreview.js"></script>
 	</div>
-	</div>
+
+
 
 </body>
 

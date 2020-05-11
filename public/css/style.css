@@ -392,7 +392,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-header .display-tc,
 #fh5co-counter .display-tc,
 .fh5co-cover .display-tc {
-  display: grid !important;
+  display:    table-cell !important;
   vertical-align: middle;
 }
 #fh5co-header .display-tc h1, #fh5co-header .display-tc h2,
@@ -429,7 +429,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-header .display-tc .btn,
 #fh5co-counter .display-tc .btn,
 .fh5co-cover .display-tc .btn {
-  padding: 15px 30px;
+  padding: 15.5px 30px;
   background: var(--main-color);
   color: #fff;
   border: none !important;
@@ -558,6 +558,12 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .fh5co-social-icons li a i {
   font-size: 30px;
+}
+
+@media screen and (max-width: 768px) {
+.fh5co-social-icons li a i {
+  font-size: 25px;
+}
 }
 .fh5co-contact-info li a i {
   font-size: 25px;
@@ -1112,7 +1118,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 fieldset{
-  padding-top: 10% !important;
+  padding-top: 20% !important;
 }
 .gototop.active {
   opacity: 1;
@@ -1241,8 +1247,6 @@ fieldset{
 }
 
 .btn {
-  margin-right: 4px;
-  margin-bottom: 4px;
   font-family: "Work Sans", Arial, sans-serif;
   font-size: 16px;
   font-weight: 400;
@@ -1439,11 +1443,24 @@ fieldset{
 #fh5co-header-subscribe #email {
   padding-right: 9em;
 }
+
+@media screen and (max-width: 768px) {
 #fh5co-header-subscribe button {
+  margin-top: 45px;
+  border-top-left-radius: 0px !important;
+  border-bottom-left-radius: 30px !important;
+
+}
+}
+
+.form-group button {
   position: absolute;
   top: 0;
-  right: 10px;
+  right: 0px;
   border-bottom-left-radius: 0px !important;
+}
+.form-group{
+  position: relative;
 }
 
 /*# sourceMappingURL=style.css.map */

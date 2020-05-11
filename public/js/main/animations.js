@@ -1,6 +1,6 @@
 animateDashboard("model.html")
 
-lightOut();
+lightOut(); 
 
 function changeBg() {
     let actualBg = Math.floor(Math.random() * 3) + 2;
