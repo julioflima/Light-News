@@ -9,8 +9,8 @@
 -  Produce Key Words with Artifical Inteligence;
 -  Referenciate the font;
 -  <del> Use Facebook API to post this news on Instagram;<del> 
--   Have a front end interface by an responsive web page to show <del> the summarized news;<del>  
 -  <del> Catch from DB the last tanannan news;<del>  
+-   Have a front end interface by an responsive web page to show <del> the summarized news;<del>  
 -  <del> Show ad-sense on the page;<del>  
 -  <del> Catch from newsletter some updating from the pages;<del>  
 -   Makes client save the summarizing in BD if was a sucess, new news and if was a known host;
