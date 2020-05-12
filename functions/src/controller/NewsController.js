@@ -106,33 +106,25 @@ module.exports = {
 
     async index(req, res, next) {
         const { pageCursor } = req.body;
-        
+
         let query = datastore.createQuery('Font')
-            .order('timestamp', {
-                descending: true,
-            })
+        .start(pageCursor)
+        .order('timestamp', {
+            descending: true,
+        })
             .select([
-                'summary',
                 'hashtags',
                 'host',
+                'imgNews.alt',
+                'imgNews.src',
+                'summary',
                 'url',
-                'imgNews'
             ])
             .limit(5)
 
-            // if (pageCursor) {
-            //     query = query.start(pageCursor);
-            // }
-    
-            const results = await datastore.runQuery(query);
-            const entities = results[0];
-            const info = results[1];
-    
-            res.send(results)
+        const results = await datastore.runQuery(query);
 
-        const resp = await datastore.get(query);
-
-        res.send(resp)
+        res.send(results)
     },
 
     async delete(req, res, next) {
