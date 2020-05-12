@@ -1,60 +1,14 @@
-const mineNow = document.getElementById('mineNow');
-const somethingToRise = document.getElementById('somethingToRise');
-const consoleRemote = document.getElementById('console');
-var about = document.getElementById('fh5co-about');
-var contact = document.getElementById('fh5co-contact');
-var search = document.getElementById('search');
-var docId;
 
-const dinamicPath = [
-    "index.html",
-    "js/main/lightNews.js",
-    "/css/style.css",
-    "/css/neon.css",
-];
-const timeUpdate = 15000;
+let pageCursor = "";
 
-if (somethingToRise) {
-    somethingToRise.addEventListener("keyup", function (e) {
-        e.preventDefault();
-        if (e.keyCode == 13 && somethingToRise.value !== "") {
-            cloudComputing(somethingToRise.value);
-        }
-    });
-}
-
-if (mineNow) {
-    mineNow.addEventListener("click", function () {
-        if (somethingToRise.value !== "") {
-            cloudComputing(somethingToRise.value);
-        }
-    });
-}
-
-setInterval(function () {
-    if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
-        consoleRemote.scrollTop += 1;
-    }
-}, 10)
-
-function showAbout() {
-    about.style.display = 'block';
-    contact.style.display = 'none';
-}
-
-function showContact() {
-    contact.style.display = 'block';
-    about.style.display = 'none';
+async function getNews(someURl) {
+    let response = await getFromCloud('robotNews', { 'pageCursor': pageCursor })
+    plotConsole(response)
+    return response;
 }
 
 
-function plotConsole(result) {
-    consoleRemote.innerHTML = consoleRemote.innerHTML + "<br />" + JSON.stringify(result);
-    let elem = document.getElementById('console');
-    elem.scrollTop = elem.scrollHeight;
-}
-
-async function getSummarized(someURl) {
+async function getSummarizedUser(someURl) {
     plotConsole(`Getting from: ${someURl}`)
     let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
     plotConsole(response)

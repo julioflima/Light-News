@@ -1,0 +1,11 @@
+indexes:
+
+- kind: Font
+    properties:
+    - name: timestamp
+      direction: desc
+    - name: hashtags
+    - name: host
+    - name: imgNews
+    - name: summary
+    - name: url

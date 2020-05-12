@@ -1,6 +1,11 @@
 const articleNewest = postingNews();
 
 async function postingNews() {
+    let linksTags = [];
+    // hashtags.forEach(element => {
+    //     linksTags.push(`https://www.instagram.com/explore/tags/${element}`)
+    // });
+
     return await articleNews();
 }
 
