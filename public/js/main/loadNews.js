@@ -5,24 +5,27 @@ let pageCursor = "";
 
 async function postingNews(bundle) {
     let bundleNews = bundle[0];
+    let reOrganize = false
     pageCursor = bundle[1].endCursor;
     let articleProm = [];
-    console.log(bundle);
     bundleNews.forEach(news => {
         switch (news.imgNews.length) {
             case 0:
                 break;
             case 1:
+                reOrganize = true
                 articleProm.push(articleNews(news));
                 break;
             default:
                 break;
         }
     })
-
-    Promise.all(articleProm).then(() => {
-        reMasonry();
-    })
+    if (reOrganize) {
+        Promise.all(articleProm).then(() => {
+            reMasonry();
+            let reOrganize = false
+        })
+    }
 }
 
 async function articleNews(bundle) {
@@ -72,8 +75,6 @@ function reMasonry() {
     $('.bricks-wrapper').masonry({
         itemSelector: '.entry',
         columnWidth: '.grid-sizer',
-        percentPosition: true,
-        resize: true
     });
 
     $(".entry").toArray().forEach((elem) => {

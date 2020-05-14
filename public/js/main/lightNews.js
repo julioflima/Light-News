@@ -1,4 +1,8 @@
-
+let rootUrl = 'https://light-news.web.app/'
+if (window.location.port) {
+    rootUrl = 'http://localhost:5001/';
+    $('#somethingToRise').val('https://www.bbc.com/portuguese/internacional-52485030')
+}
 
 let requisiting = false;
 let endNews = false;
@@ -22,16 +26,23 @@ async function getNews() {
 }
 
 async function cloudComputing(someURl) {
-    FB.login(async (response) => {
-        if (response.status === 'connected') {
-            plotConsole(`Getting from: ${someURl}`)
-            let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
-            plotConsole(response)
-        } else {
-            plotConsole("The user is not logged into this web page or we are unable to tell.")
-        }
-    }, { scope: 'instagram_basic,instagram_content_publish' });
+    plotConsole(`Getting from: ${someURl}`)
+    try {
+        plotConsole(await getFromCloud('robotNews', 'POST',{ 'someURL': someURl, 'lang': 'pt' }))
+    } catch (error) {
+        plotConsole(error)
+    }
 }
+
+// FB.login(async (response) => {
+//     if (response.status === 'connected') {
+//         plotConsole(`Getting from: ${someURl}`)
+//         let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
+//         plotConsole(response)
+//     } else {
+//         plotConsole("The user is not logged into this web page or we are unable to tell.")
+//     }
+// }, { scope: 'instagram_basic,instagram_content_publish' });
 
 async function postOnInstagram(bundleNews) {
     plotConsole(`Posting on Instagram...`)
@@ -43,10 +54,6 @@ async function postOnInstagram(bundleNews) {
 
 async function getFromCloud(func, method, dataIn) {
     let dataReturn;
-    let rootUrl = 'https://light-news.web.app/'
-    if (window.location.port) {
-        rootUrl = 'http://localhost:5001/';
-    }
     await $.ajax({
         'url': `${rootUrl}light-news/us-central1/app/${func}`,
         'dataType': "json",

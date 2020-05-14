@@ -3,7 +3,7 @@ const { Datastore } = require('@google-cloud/datastore');
 
 const { getNews, getFrom, hostAvailable, sanitizeNews, getSummarize,
     getHashtags, getTranslationToEn, getReTranslation, translatedLang,
-    getReferenciate, buildCaption, } = require('../robots/text')
+    getReferenciate, buildCaption, translation } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
 //Initialize client.
@@ -37,6 +37,7 @@ module.exports = {
             let summary = await getReTranslation(gringoSummary, langCaption);
             let hashtags = await getReTranslation(gringoHashtags, langCaption);
             let caption = buildCaption(summary, reference, hashtags);
+
 
             //Bundle information.
             let bundle = {
@@ -137,5 +138,7 @@ module.exports = {
         const taskKey = datastore.key(['News', news, 'Font', font]);
         const response = await datastore.delete(taskKey);
         res.send(response);
-    }
+    },
+
 }
+

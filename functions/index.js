@@ -20,9 +20,17 @@ app.use(cors(
 //Routers requires and calls.
 app.use(express.json())
 app.use(routes)
-app.use(errors())    
+app.use(errors())
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions
+    .runWith({
+        timeoutSeconds: 300,
+        memory: '1GB'
+    })
+    .https.onRequest(app)
+
+
+
 
 /**
 * Métodos HTTP:

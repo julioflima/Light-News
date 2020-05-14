@@ -19,7 +19,6 @@ var self = module.exports = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36'
             }
         };
-
         const { data, request } = await axios(options)
         const host = request.connection._host
         const url = host + request.path;
@@ -33,7 +32,6 @@ var self = module.exports = {
 
     getFrom(host, data) {
         let response
-
         switch (host) {
             case "www.bbc.com": {
                 response = fonts(data).bbc();
@@ -68,6 +66,7 @@ var self = module.exports = {
     },
 
     async  getTranslationToEn(strings) {
+        self.xTranslations(strings)
         let newString = strings.join('  ')
         let response = await googleTranslate(newString, { to: 'en' })
         let news = response.text.split('  ')
@@ -123,5 +122,28 @@ var self = module.exports = {
     buildCaption(summary, reference, hashtags) {
         let arrays = [summary, reference, hashtags.split(' ').slice(0, 5).map(s => "#" + s).join(' ')].join(' \n ');
         return arrays;
+    },
+
+    xTranslations(strings) {
+        let xTrans = [];
+        let backupString = []
+        let auxString = []
+        for (let index = 0; index < strings.length; index++) {
+            auxString.push(strings[index])
+            let newString = auxString.join('  ')
+            console.log(newString)
+            if (newString.length > 10000) {
+                xTrans.push(backupString.join('  '))
+                auxString = []
+                backupString = []
+                --index
+            } else {
+                backupString.push(strings[index])
+                if (strings.length - index == 1) {
+                    xTrans.push(backupString.join('  '))
+                }
+            }
+        }
+        return xTrans
     },
 }

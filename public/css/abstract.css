@@ -534,7 +534,7 @@ input[type="password"]:focus,
 textarea:focus,
 select:focus {
 	background: #151515;
-	color: white;
+	color: var(--secondary-color);
 }
 
 label,

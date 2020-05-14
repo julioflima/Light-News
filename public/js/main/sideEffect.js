@@ -4,7 +4,6 @@ const consoleRemote = document.getElementById('console');
 var about = document.getElementById('fh5co-about');
 var contact = document.getElementById('fh5co-contact');
 var search = document.getElementById('search');
-var docId;
 
 const dinamicPath = [
     "index.html",
@@ -33,11 +32,11 @@ if (mineNow) {
     });
 }
 
-setInterval(function () {
-    if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
-        consoleRemote.scrollTop += 1;
-    }
-}, 10)
+// setInterval(function () {
+//     if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
+//         consoleRemote.scrollTop += 1;
+//     }
+// }, 100)
 
 function showAbout() {
     about.style.display = 'block';
