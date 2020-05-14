@@ -126,24 +126,19 @@ var self = module.exports = {
 
     xTranslations(strings) {
         let xTrans = [];
-        let backupString = []
         let auxString = []
         for (let index = 0; index < strings.length; index++) {
             auxString.push(strings[index])
-            let newString = auxString.join('  ')
-            console.log(newString)
-            if (newString.length > 10000) {
-                xTrans.push(backupString.join('  '))
+            if (auxString.join('  ').length > 10000) {
+                auxString.pop()
+                xTrans.push(auxString.join('  '))
                 auxString = []
-                backupString = []
                 --index
-            } else {
-                backupString.push(strings[index])
-                if (strings.length - index == 1) {
-                    xTrans.push(backupString.join('  '))
-                }
+            }
+            if (strings.length - index == 1) {
+                xTrans.push(auxString.join('  '))
             }
         }
         return xTrans
-    },
+    }
 }
