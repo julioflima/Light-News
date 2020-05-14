@@ -11,8 +11,10 @@ const dinamicPath = [
     "js/main/lightNews.js",
     "/css/style.css",
     "/css/neon.css",
+    "js/plugins/plugins.js",
+    "js/plugins/abstract.js"
 ];
-const timeUpdate = 15000;
+const timeUpdate = 1500;
 
 if (somethingToRise) {
     somethingToRise.addEventListener("keyup", function (e) {

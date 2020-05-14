@@ -1,17 +1,13 @@
 /* https://codepen.io/FelixRilling/pen/qzfoc */
 :root {
-  --animation: neon2 1.5s ease-in-out infinite alternate;
-  --animationTime: all 0.5s;
-  --animationFrom:0 0 10px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 75px #228DFF, 0 0 100px #228DFF, 0 0 125px #228DFF, 0 0 150px #228DFF, 0 0 175px #228DFF;
-  --animationTo: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+    --animationFrom: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 50px #228DFF, 0 0 75px #228DFF, 0 0 100px #228DFF;
+  --animationTo: 0 0 5px #fff,  0 0 10px #228DFF, 0 0 40px #228DFF, 0 0 75px #228DFF;
+  --animationTime: neon 3s ease-in-out infinite alternate;
 
+  /* --animationFrom:0 0 10px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 75px #228DFF, 0 0 100px #228DFF, 0 0 125px #228DFF, 0 0 150px #228DFF, 0 0 175px #228DFF;
+  --animationTo: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF; */
 }
-a {
-  text-decoration: none;
-  -webkit-transition: var(-animationTime);
-  -moz-transition: var(-animationTime);
-  transition: var(-animationTime);
-}
+
 
   p:nth-child(1) a {
     font-size: 1.5em;
@@ -29,7 +25,7 @@ a {
     color: #ffffff;
   }
   
-  @-webkit-keyframes neon2 {
+  @-webkit-keyframes neon {
     from {
       text-shadow: var(--animationFrom);
     }
@@ -38,7 +34,7 @@ a {
     }
   }
   
-  @-moz-keyframes neon2 {
+  @-moz-keyframes neon {
     from {
       text-shadow: var(--animationFrom);
     }
@@ -47,7 +43,7 @@ a {
     }
   }
   
-  @keyframes neon2 {
+  @keyframes neon {
     from {
       text-shadow: var(--animationFrom);
     }

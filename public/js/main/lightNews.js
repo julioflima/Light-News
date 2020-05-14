@@ -1,34 +1,36 @@
 
-let pageCursor = "";
 
-async function getNews(someURl) {
-    let response = await getFromCloud('robotNews', { 'pageCursor': pageCursor })
-    plotConsole(response)
-    return response;
-}
+let requisiting = false;
+let endNews = false;
+getNews();
 
-
-async function getSummarizedUser(someURl) {
-    plotConsole(`Getting from: ${someURl}`)
-    let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
-    plotConsole(response)
-    return response;
+async function getNews() {
+    try {
+        if (!requisiting && !endNews) {
+            requisiting = true;
+            let news = await getFromCloud('robotNews', 'GET', { 'pageCursor': pageCursor })
+            if (news[1].moreResults == "NO_MORE_RESULTS") {
+                endNews = true;
+            }
+            postingNews(news)
+            requisiting = false
+        }
+    } catch (error) {
+        plotConsole(error)
+        requisiting = false
+    }
 }
 
 async function cloudComputing(someURl) {
-    FB.login(function (response) {
+    FB.login(async (response) => {
         if (response.status === 'connected') {
-            getSummarized(someURl).then((bundleNews) => {
-                // postOnInstagram(bundleNews)
-            })
+            plotConsole(`Getting from: ${someURl}`)
+            let response = await getFromCloud('robotText', { 'someURL': someURl, 'lang': 'pt' })
+            plotConsole(response)
         } else {
             plotConsole("The user is not logged into this web page or we are unable to tell.")
         }
     }, { scope: 'instagram_basic,instagram_content_publish' });
-}
-
-async function getFromCloud(func, data) {
-    return await network('https://us-central1-light-news.cloudfunctions.net/' + func, 'GET', data)
 }
 
 async function postOnInstagram(bundleNews) {
@@ -39,22 +41,25 @@ async function postOnInstagram(bundleNews) {
     // return await network('https://us-central1-light-news.cloudfunctions.net/' + func, 'GET', data)
 }
 
-async function network(url, method, data) {
+async function getFromCloud(func, method, dataIn) {
     let dataReturn;
+    let rootUrl = 'https://light-news.web.app/'
+    if (window.location.port) {
+        rootUrl = 'http://localhost:5001/';
+    }
     await $.ajax({
-        url: url,
-        dataType: "json",
-        method: method,
-        crossDomain: true,
-        headers: {
+        'url': `${rootUrl}light-news/us-central1/app/${func}`,
+        'dataType': "json",
+        'method': method,
+        'crossDomain': true,
+        'headers': {
             'Accept': 'application/json'
         },
-        data: data,
-        success: function (data) {
-            console.log(JSON.stringify(data));
+        'data': dataIn,
+        success: (data) => {
             dataReturn = data;
         },
-        error: function (request, status, error) {
+        error: (request, status, error) => {
             plotConsole(status);
             plotConsole(error);
             plotConsole(request.responseText);

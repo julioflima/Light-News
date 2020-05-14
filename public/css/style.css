@@ -18,9 +18,10 @@
 
 :root {
   --main-color: #e30040;
-  --second-color: #2ab0ed;
+  --secondary-color: #2ab0ed;
   --terciary-color: #555555;
   --quaternary-color: #0ae;
+  --quintanary-color: #0ae;
 }
 
 
@@ -34,18 +35,29 @@
 html {
 }
 
+.cat-links a {
+  font-family: "Bree Serif", "ProFont For Powerline", Arial !important;
+  color: var(--quintanary-color) !important;
 
+}
+
+.entry-excerpt{
+  font-family: 'Libre Baskerville', Georgia, Cochin, Times, 'Times New Roman', serif !important;  
+  color:rgb(53, 50, 50) !important;
+  text-align: justify;
+  font-size: 2rem !important;
+}
 
 body {
-  font-family: "ProFont For Powerline", Arial, sans-serif !important;
+  font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;  
   font-weight: 400;
-  font-size: 16px;
   line-height: 1.7;
   color: var(--terciary-color);
   background: #fff;
   overflow-x: hidden;
 
 }
+
 #scrollbar{
 }
 ::-webkit-scrollbar-track
@@ -473,7 +485,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-header .display-tc .btn:hover,
 #fh5co-counter .display-tc .btn:hover,
 .fh5co-cover .display-tc .btn:hover {
-  background: var(--second-color) !important;
+  background: var(--secondary-color) !important;
   -webkit-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   -moz-box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
   box-shadow: 0px 14px 30px -15px rgba(0, 0, 0, 0.75) !important;
@@ -590,7 +602,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: inline-block;
   zoom: 1;
   *display: inline;
-  color: var(--second-color);
+  color: var(--secondary-color);
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -984,9 +996,9 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-started .btn:hover {
   background: #f04242 !important;
-  -webkit-box-shadow: 0px 14px 20px -9px var(--second-color) !important;
-  -moz-box-shadow: 0px 14px 20px -9px var(--second-color) !important;
-  box-shadow: 0px 14px 20px -9px var(--second-color) !important;
+  -webkit-box-shadow: 0px 14px 20px -9px var(--secondary-color) !important;
+  -moz-box-shadow: 0px 14px 20px -9px var(--secondary-color) !important;
+  box-shadow: 0px 14px 20px -9px var(--secondary-color) !important;
 }
 #fh5co-started .form-inline .form-group {
   width: 100% !important;
