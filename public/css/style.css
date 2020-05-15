@@ -36,7 +36,7 @@ html {
 }
 
 .cat-links a {
-  font-family: "Bree Serif", "ProFont For Powerline", Arial !important;
+  font-family: 'Bree Serif', sans-serif !important;  
   color: var(--quintanary-color) !important;
 
 }
@@ -46,6 +46,20 @@ html {
   color:rgb(53, 50, 50) !important;
   text-align: justify;
   font-size: 2rem !important;
+}
+
+#somethingToRise{
+  font-size: 1.3rem;
+  font-family: 'Libre Baskerville', Georgia, Cochin, Times, 'Times New Roman', serif !important;  
+
+}
+
+footer p{
+  font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;  
+}
+
+p{
+	font-family: "montserrat-bold", sans-serif;
 }
 
 body {
@@ -97,9 +111,13 @@ body {
 }
 }
 
+.fh5co-contact-info li{
+  font-family: "ProFont For Powerline", Arial, sans-serif !important;
+  
+}
 
 li{
-  font-family: "ProFont For Powerline", Arial, sans-serif !important;
+  font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important
 }
 
 #page {
@@ -1345,8 +1363,8 @@ fieldset{
   border-bottom-left-radius: 0px !important;
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
-  background: #f57b7b !important;
-  border-color: #f57b7b !important;
+  background: var(--secondary-color) !important;
+  border-color: var(--secondary-color) !important;
 }
 .btn-primary.btn-outline {
   background: transparent;
@@ -1478,12 +1496,12 @@ fieldset{
   background: transparent;
   border: 2px solid rgba(0, 0, 0, 0.1);
   height: 54px;
-  font-size: 18px;
+  font-size: 2rem;
 }
 .form-control:active, .form-control:focus {
   outline: none;
   box-shadow: none;
-  border-color: var(--main-color);
+  border-color: var(--secondary-color);
 }
 
 .row-pb-md {

@@ -67,7 +67,7 @@ body {
 body {
 	background: #f5f5f5;
 	font-family: "roboto-regular", sans-serif;
-	font-size: 1.7rem;
+	font-size: 1.8rem;
 	line-height: 3rem;
 	color: #111111;
 }
@@ -77,7 +77,7 @@ body {
  * ------------------------------------------------------------------- */
 a,
 a:visited {
-	color: #1237B1;
+	color: var(--main-color);
 	border-bottom: 1px solid transparent;
 	
 }
@@ -93,7 +93,7 @@ a:focus {
  *
  * ------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6, .h01, .h02, .h03, .h04, .h05, .h06 {
-	font-family: "montserrat-bold", sans-serif;
+	font-family: "Playfair Display", Arial, serif;
 	color: #151515;
 	font-style: normal;
 	text-rendering: optimizeLegibility;
@@ -457,9 +457,9 @@ select {
 	border: 0;
 	outline: none;
 	vertical-align: middle;
-	color: rgba(0, 0, 0, 0.7);
-	font-family: "roboto-regular", sans-serif;
-	font-size: 1.5rem;
+	color: rgba(0, 0, 0, 1);
+	font-family:"ProFont For Powerline", Arial !important;
+	font-size: 1.8rem;
 	line-height: 3rem;
 	max-width: 100%;
 	background: rgba(0, 0, 0, 0.1);
@@ -600,7 +600,7 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"] {
 	display: inline-block;
-	font-family: "montserrat-regular", sans-serif;
+	font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;
 	font-size: 1.4rem;
 	text-transform: uppercase;
 	letter-spacing: .3rem;
@@ -1109,7 +1109,7 @@ input::-moz-focus-inner {
 }
 
 .bricks-wrapper .entry-header .cat-links a::after {
-	content: ", ";
+	/* content: ", "; */
 }
 
 .bricks-wrapper .entry-header .cat-links a:last-child::after {
