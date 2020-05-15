@@ -17,8 +17,6 @@ async function postingNews(bundle) {
                 break;
         }
     })
-
-    console.log("test")
 }
 
 async function articleNews(bundle) {

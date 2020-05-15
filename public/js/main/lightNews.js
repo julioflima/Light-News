@@ -1,5 +1,5 @@
-let rootUrl = 'https://light-news.web.app/'
-if (window.location.port) {
+let rootUrl = 'https://us-central1-light-news.cloudfunctions.net/app/'
+if (window.location.port === 5000) {
     rootUrl = 'http://localhost:5001/';
     $('#somethingToRise').val('https://www.bbc.com/portuguese/internacional-52485030')
 }
@@ -39,6 +39,13 @@ async function cloudComputing(someURl) {
     }
 }
 
+function sendingMessage(firstName, contact, message) {
+    if (window.mobileCheck) {
+        let wpp = `https://wa.me/+5585998614541?text=I'm ${firstName}.\n \n My contact is:${contact} \n \n ${message}`;
+        window.open(encodeURI(wpp));
+    }
+}
+
 // FB.login(async (response) => {
 //     if (response.status === 'connected') {
 //         plotConsole(`Getting from: ${someURl}`)
@@ -60,7 +67,7 @@ async function postOnInstagram(bundleNews) {
 async function getFromCloud(func, method, dataIn) {
     let dataReturn;
     await $.ajax({
-        'url': `${rootUrl}light-news/us-central1/app/${func}`,
+        'url': `${rootUrl}${func}`,
         'dataType': "json",
         'method': method,
         'crossDomain': true,

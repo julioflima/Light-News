@@ -49,8 +49,8 @@ html {
 }
 
 #somethingToRise{
-  font-size: 1.3rem;
-  font-family: 'Libre Baskerville', Georgia, Cochin, Times, 'Times New Roman', serif !important;  
+  font-size: 1.4rem;
+  font-family: "ProFont For Powerline", Arial !important
 
 }
 
@@ -58,8 +58,27 @@ footer p{
   font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;  
 }
 
-p{
-	font-family: "montserrat-bold", sans-serif;
+.about-content p{
+  font-family: "ProFont For Powerline", Arial !important;
+  font-size: 1.5rem;
+  text-align: justify;
+}
+
+strong{
+  font-family: "ProFont For Powerline", Arial !important;
+  font-size: 1.8rem;
+}
+
+@media screen and (max-width: 768px) {
+.about-content p{
+  font-size: 1.8rem;
+  font-weight: 200;
+}
+ strong{
+  font-size: 1.8rem;
+  font-weight: 300 !important;
+
+}
 }
 
 body {
@@ -169,7 +188,7 @@ a > span {
 
 h1, h2, h3, h4, h5, h6, figure {
   color: #000;
-  font-family: "Playfair Display", Arial, serif;
+  font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;
   font-weight: 400;
   margin: 0 0 20px 0;
 }
@@ -996,7 +1015,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 #fh5co-testimonial .box-testimony blockquote p {
   letter-spacing: 1px;
-  font-family: "Playfair Display", Arial, serif;
+  font-family: 'Playfair Display', Georgia, Cochin, Georgia, Times, 'Times New Roman', serif !important;  
 }
 #fh5co-testimonial .box-testimony .author {
   line-height: 20px;

@@ -146,7 +146,7 @@ var self = module.exports = {
                 auxString = []
                 --index
             }
-            if (strings.length - index == 1) {
+            if (strings.length - index === 1) {
                 xTrans.push(auxString.join('  '))
             }
         }

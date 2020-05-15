@@ -1,6 +1,9 @@
 const mineNow = document.getElementById('mineNow');
 const somethingToRise = document.getElementById('somethingToRise');
-const consoleRemote = document.getElementById('console');
+const sendMessage = document.getElementById('sendMessage');
+const message = document.getElementById('message');
+const contactWhatsapp = document.getElementById('contact');
+const firstName = document.getElementById('fname');
 var about = document.getElementById('fh5co-about');
 var contact = document.getElementById('fh5co-contact');
 var search = document.getElementById('search');
@@ -29,6 +32,12 @@ if (mineNow) {
         if (somethingToRise.value !== "") {
             cloudComputing(somethingToRise.value);
         }
+    });
+}
+
+if (sendMessage) {
+    sendMessage.addEventListener("click", function () {
+        sendingMessage(firstName.value, contactWhatsapp.value, message.value.replace('.', ''));
     });
 }
 
