@@ -75,6 +75,6 @@ $("#page").scroll(async () => {
     let a = document.getElementById('page').scrollTop;
     let scrollPosition = a / b;
     if (scrollPosition > .6) {
-            await getNews();
+        await getNews();
     }
 });

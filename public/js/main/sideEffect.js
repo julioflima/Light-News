@@ -42,11 +42,11 @@ if (sendMessage) {
     });
 }
 
-// setInterval(function () {
-//     if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
-//         consoleRemote.scrollTop += 1;
-//     }
-// }, 100)
+setInterval(function () {
+    if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
+        consoleRemote.scrollTop += 1;
+    }
+}, 100)
 
 function showAbout() {
     about.style.display = 'block';
@@ -62,5 +62,9 @@ function showContact() {
 function plotConsole(result) {
     consoleRemote.innerHTML = consoleRemote.innerHTML + "<br />" + JSON.stringify(result);
     let elem = document.getElementById('console');
-    elem.scrollTop = elem.scrollHeight;
+    setInterval(function () {
+        if (elem.scrollTop < elem.scrollHeight) {
+            elem.scrollTop += 1;
+        }
+    }, 100)
 }
