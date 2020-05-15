@@ -9,7 +9,7 @@
 -  Produce Key Words with Artifical Inteligence;
 -  Referenciate the font;
 -  <del>Use Facebook API to post this news on Instagram;<del> 
--  Catch from DB the last 5 news; 
+-  Catch from DB the last all news by (: scroll ; 
 -  Have a front end interface by an responsive web page to show the summarized news;
 -  <del>Show ad-sense on the page;<del>  
 -  <del>Catch from newsletter some updating from the pages;<del>  
