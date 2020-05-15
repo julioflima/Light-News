@@ -70,29 +70,11 @@ function audioNews() {
 
 }
 
-function reMasonry() {
-    console.log('remasory')
-    $('.bricks-wrapper').masonry({
-        itemSelector: '.entry',
-        columnWidth: '.grid-sizer',
-        percentPosition: true,
-        resize: true
-    });
-
-    $(".entry").toArray().forEach((elem) => {
-        $('.bricks-wrapper').masonry('ignore', elem).masonry();
-        $('.bricks-wrapper').masonry()
-            .append(elem)
-            .masonry('appended', elem)
-            .masonry();
-    })
-}
-
-$("#page").scroll(() => {
+$("#page").scroll(async () => {
     let b = document.getElementById('page').scrollHeight - document.getElementById('page').clientHeight;
     let a = document.getElementById('page').scrollTop;
     let scrollPosition = a / b;
-    if (scrollPosition > .8) {
-        getNews()
+    if (scrollPosition > .6) {
+            await getNews();
     }
 });

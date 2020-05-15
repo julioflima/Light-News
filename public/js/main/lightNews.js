@@ -7,11 +7,17 @@ if (window.location.port === 5000) {
 let requisiting = false;
 let endNews = false;
 
-(async function initNews() {
+initNews()
+
+async function initNews() {
+    counterArticles = 0;
+    pageCursor = "";
+    animateDashboard("news/model.html")
+    lightOut();
     while (counterArticles < 10) {
         await getNews();
     }
-})()
+}
 
 async function getNews() {
     try {
@@ -33,7 +39,9 @@ async function getNews() {
 async function cloudComputing(someURl) {
     plotConsole(`Getting from: ${someURl}`)
     try {
-        plotConsole(await getFromCloud('robotNews', 'POST', { 'someURL': someURl, 'lang': 'pt' }))
+        let postNews = await getFromCloud('robotNews', 'POST', { 'someURL': someURl, 'lang': 'pt' })
+        plotConsole(postNews);
+        initNews();
     } catch (error) {
         plotConsole(error)
     }

@@ -1,7 +1,3 @@
-animateDashboard("news/model.html")
-
-lightOut();
-
 function changeBg() {
     let actualBg = Math.floor(Math.random() * 3) + 2;
     let imgName = `img_bg_${actualBg}.jpg`;
@@ -26,7 +22,7 @@ function lightOut() {
 function animateDashboard(page, id = '#fh5co-project') {
     $.when(
         $.get(page, (data) => {
-            $(id).append(data);
+            $(id).html(data);
         })
     ).done(() => {
     });
