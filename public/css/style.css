@@ -66,7 +66,6 @@ footer p{
 
 strong{
   font-family: "ProFont For Powerline", Arial !important;
-  font-size: 1.8rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -75,8 +74,6 @@ strong{
   font-weight: 200;
 }
  strong{
-  font-size: 1.8rem;
-  font-weight: 300 !important;
 
 }
 }

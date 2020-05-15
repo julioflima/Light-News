@@ -81,7 +81,7 @@ var self = module.exports = {
             lang.push(elem.from.language.iso);
         })
         lang = self.mode(lang)
-        news = news.join('  ').split('  ')
+        news = news.join('  ').split('')
         return { news, lang }
     },
 
@@ -96,10 +96,13 @@ var self = module.exports = {
     },
 
     sanitizeNews(news, host) {
-        return news.filter((item) => {
+        // console.log(news)
+        const sanitized = news.filter((item) => {
             return !listFilter[host].includes(item);
         }).join(' ')
             .replace(/&#9642/gi, '')
+        // console.log(sanitized)
+        return sanitized
     },
 
     translatedLang(reqLang, detectedLang) {
@@ -152,6 +155,7 @@ var self = module.exports = {
         }
         return xTrans
     },
+
     mode(arr) {
         return arr.sort((a, b) =>
             arr.filter(v => v === a).length
@@ -160,3 +164,6 @@ var self = module.exports = {
     }
 
 }
+
+
+
