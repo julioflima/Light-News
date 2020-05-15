@@ -984,6 +984,15 @@ input::-moz-focus-inner {
 
 /* masonry entries - (_common-styles.scss) 
  * ------------------------------------------------------------------- */
+.entry1, .entry2, .entry3, .entry4{
+    width: 25% !important;
+}
+@media only screen and (max-width:768px) {
+	.entry1, .entry2, .entry3, .entry4{
+		width: 100% !important;
+	}
+}
+
 .bricks-wrapper .entry {
 	margin-bottom: 40px;
 }
@@ -2270,12 +2279,19 @@ header .logo a {
 
 .bricks-wrapper .grid-sizer,
 .bricks-wrapper .brick {
+	width: 100%;
+}
+
+@media only screen and (max-width:768px) {
+	.bricks-wrapper .grid-sizer,
+.bricks-wrapper .brick {
 	width: 25%;
+}
 }
 
 .bricks-wrapper .brick {
 	float: left;
-	padding: 0 20px;
+	padding: 0 10px;
 }
 
 .bricks-wrapper .featured-grid {

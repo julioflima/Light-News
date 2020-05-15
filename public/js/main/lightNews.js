@@ -6,7 +6,12 @@ if (window.location.port) {
 
 let requisiting = false;
 let endNews = false;
-getNews();
+
+(async function initNews() {
+    while (counterArticles < 10) {
+        await getNews();
+    }
+})()
 
 async function getNews() {
     try {
@@ -28,7 +33,7 @@ async function getNews() {
 async function cloudComputing(someURl) {
     plotConsole(`Getting from: ${someURl}`)
     try {
-        plotConsole(await getFromCloud('robotNews', 'POST',{ 'someURL': someURl, 'lang': 'pt' }))
+        plotConsole(await getFromCloud('robotNews', 'POST', { 'someURL': someURl, 'lang': 'pt' }))
     } catch (error) {
         plotConsole(error)
     }

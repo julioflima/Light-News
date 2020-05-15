@@ -1,31 +1,24 @@
 let pageCursor = "";
-
-
-
+let counterArticles = 0;
 
 async function postingNews(bundle) {
     let bundleNews = bundle[0];
-    let reOrganize = false
     pageCursor = bundle[1].endCursor;
     let articleProm = [];
-    bundleNews.forEach(news => {
+    await bundleNews.forEach(async news => {
         switch (news.imgNews.length) {
             case 0:
                 break;
             case 1:
-                reOrganize = true
-                articleProm.push(articleNews(news));
+                let gotArticle = await articleNews(news);
+                await appendNews(gotArticle)
                 break;
             default:
                 break;
         }
     })
-    if (reOrganize) {
-        Promise.all(articleProm).then(() => {
-            reMasonry();
-            let reOrganize = false
-        })
-    }
+
+    console.log("test")
 }
 
 async function articleNews(bundle) {
@@ -37,9 +30,17 @@ async function articleNews(bundle) {
     bundle.hashtags.split(' ').slice(0, 5).forEach(tags => {
         $article.find('.cat-links').append(`<a href = "https://www.instagram.com/explore/tags/${tags}" > #${tags} </a>`)
     })
-    return $(".bricks-wrapper div:eq(0)").after($article);
+    return $article
 }
 
+async function appendNews($article) {
+    if (window.screen.width < 768) {
+        await $($article).insertBefore(".before");
+    } else {
+        await $(".entry" + (counterArticles % 4 + 1)).append($article);
+    }
+    return counterArticles++;
+}
 
 function sliderNews() {
     animateDashboard("news/sliderNews.html", '#afterSizer')
@@ -72,9 +73,12 @@ function audioNews() {
 }
 
 function reMasonry() {
+    console.log('remasory')
     $('.bricks-wrapper').masonry({
         itemSelector: '.entry',
         columnWidth: '.grid-sizer',
+        percentPosition: true,
+        resize: true
     });
 
     $(".entry").toArray().forEach((elem) => {

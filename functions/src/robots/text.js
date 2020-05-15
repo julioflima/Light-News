@@ -66,11 +66,22 @@ var self = module.exports = {
     },
 
     async  getTranslationToEn(strings) {
-        self.xTranslations(strings)
-        let newString = strings.join('  ')
-        let response = await googleTranslate(newString, { to: 'en' })
-        let news = response.text.split('  ')
-        let lang = response.from.language.iso
+        let newString = self.xTranslations(strings);
+        let arrayStrings = [];
+        let news = [];
+        let lang = [];
+        newString.forEach(async (elem) => {
+            new Promise((resolve, reject) => {
+                resolve(arrayStrings.push(googleTranslate(elem, { to: 'en' })));
+            })
+        })
+        let response = await Promise.all(arrayStrings)
+        response.forEach(elem => {
+            news.push(elem.text);
+            lang.push(elem.from.language.iso);
+        })
+        lang = self.mode(lang)
+        news = news.join('  ').split('  ')
         return { news, lang }
     },
 
@@ -140,5 +151,12 @@ var self = module.exports = {
             }
         }
         return xTrans
+    },
+    mode(arr) {
+        return arr.sort((a, b) =>
+            arr.filter(v => v === a).length
+            - arr.filter(v => v === b).length
+        ).pop();
     }
+
 }

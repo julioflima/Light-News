@@ -3,7 +3,7 @@ const { Datastore } = require('@google-cloud/datastore');
 
 const { getNews, getFrom, hostAvailable, sanitizeNews, getSummarize,
     getHashtags, getTranslationToEn, getReTranslation, translatedLang,
-    getReferenciate, buildCaption, translation } = require('../robots/text')
+    getReferenciate, buildCaption } = require('../robots/text')
 const credentials = require('../database/credentials.json')
 
 //Initialize client.
@@ -123,7 +123,7 @@ module.exports = {
                 //     'summary',
                 //     'url',
                 // ])
-                .limit(5)
+                .limit(1)
 
             const results = await datastore.runQuery(query);
             res.send(results)
