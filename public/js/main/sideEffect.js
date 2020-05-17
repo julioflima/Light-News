@@ -42,7 +42,7 @@ if (sendMessage) {
         if (window.mobileCheck) {
             let lblMsg = "";
             if (forFname.innerHTML) {
-                lblMsg = `Hi, I'm ${forFname.innerHTML}!\n \n`;
+                lblMsg = `Hi,I'm ${forFname.innerHTML}!\n\nI've been seen Light News..\n`;
             }
             sendingMessage(firstName.value, "", `${lblMsg}${message.value}`.replace('.', ''));
         }
@@ -57,10 +57,10 @@ setInterval(() => {
 }, 100)
 
 $("#fname").on('input', () => {
-    if($("#fname").val()){
+    if ($("#fname").val()) {
         $(".labelMessage").css("display", "block")
         $("#message").css("padding-top", "40px")
-    }else{
+    } else {
         $(".labelMessage").css("display", "none")
         $("#message").css("padding-top", "10px")
     }
