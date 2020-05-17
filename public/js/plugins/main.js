@@ -201,11 +201,11 @@
 		mobileMenuOutsideClick();
 		offcanvasMenu();
 		burgerMenu();
-		contentWayPoint();
-		dropdown();
-		goToTop();
-		loaderPage();
-		counterWayPoint();
+		// contentWayPoint();
+		// dropdown();
+		// goToTop();
+		// loaderPage();
+		// counterWayPoint();
 	});
 
 

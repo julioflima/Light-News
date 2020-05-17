@@ -157,44 +157,44 @@
 			<div id="fh5co-contact" style="display:none; padding-bottom: 0em;">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-5 col-md-push-1 animate-box">
-
+						<div class="col-md-6">
 							<div class="fh5co-contact-info">
 								<h3>Contact Information</h3>
 								<ul>
 									<li><a href="https://www.instagram.com/julio.flima/">
 											<i class="fab fa-instagram"></i>
-											<span>@julio.flima</span>
+											<span class="label-hidden">@julio.flima</span>
 										</a>
 									</li>
 									<li><a href="https://www.facebook.com/julioflima">
 											<i class="fab fa-facebook-f"></i>
-											<span>@julioflima</span>
+											<span class="label-hidden">@julioflima</span>
 										</a>
 									</li>
 									<li><a href="https://www.linkedin.com/in/julioflima/">
 											<i class="fab fa-linkedin-in"></i>
-											<span>@julioflima</span>
+											<span class="label-hidden">@julioflima</span>
 										</a>
 									</li>
 									<li><a href="https://github.com/juloko">
 											<i class="fab fa-github-alt"></i>
-											<span>@juloko</span>
+											<span class="label-hidden">@juloko</span>
 										</a>
 									</li>
 									<li><a href="tel:+5585998614541">
 											<i class="fab fa-whatsapp"></i>
-											<span>+55 85 9 9861 4541</span>
+											<span class="label-hidden">+55 85 9 9861 4541</span>
 										</a>
 									</li>
 									<li><a href="mailto:julio_flima@hotmail.com?subject=Hi, I've been seen Light News">
 											<i class="far fa-envelope"></i>
-											<span>julio_flima@hotmail.com</span>
+											<span class="label-hidden">julio_flima@hotmail.com</span>
 										</a>
 									</li>
 									<li><a href="https://goo.gl/maps/dExy3wE2tvCFJbzt6">
 											<i class="fa fa-map-marked-alt" aria-hidden="true"></i>
-											<span>Dr. Justa Araujo 1408,<br> Fortaleza, CE, Brazil</span>
+											<span class="label-hidden">Dr. Justa Araujo 1408,<br> Fortaleza, CE,
+												Brazil</span>
 										</a>
 									</li>
 								</ul>
@@ -203,28 +203,18 @@
 
 						<div class="col-md-6 animate-box">
 							<h3>Get In Touch</h3>
-							<form action="#">
+							<div >
 								<div class="row form-group">
 									<div class="col-md-12">
-										<!-- <label for="fname">First Name</label> -->
 										<input type="text" id="fname" class="form-control" placeholder="Your name.">
-									</div>
 
-								</div>
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="email">Email</label> -->
-										<input type="text" id="contact" class="form-control"
+										<input type="text" id="contact" class="form-control label-hidden"
 											placeholder="Your contact.">
-									</div>
-								</div>
-
-
-								<div class="row form-group">
-									<div class="col-md-12">
-										<!-- <label for="message">Message</label> -->
-										<textarea name="message" id="message" cols="30" rows="10" class="form-control"
-											placeholder="Say something."></textarea>
+										<div>
+											<label style="display: none;"class="labelMessage" for="message">Hi, I'm <span id="forFname"></span>!</label>
+											<textarea name="message" id="message" cols="30" rows="10"
+												class="form-control" placeholder="Say something..."></textarea>
+										</div>
 									</div>
 								</div>
 								<div class="form-group">

@@ -2,6 +2,7 @@ const mineNow = document.getElementById('mineNow');
 const somethingToRise = document.getElementById('somethingToRise');
 const consoleRemote = document.getElementById('console');
 const sendMessage = document.getElementById('sendMessage');
+const forFname = document.getElementById('forFname');
 const message = document.getElementById('message');
 const contactWhatsapp = document.getElementById('contact');
 const firstName = document.getElementById('fname');
@@ -20,7 +21,7 @@ const dinamicPath = [
 const timeUpdate = 1500;
 
 if (somethingToRise) {
-    somethingToRise.addEventListener("keyup", function (e) {
+    somethingToRise.addEventListener("keyup", (e) => {
         e.preventDefault();
         if (e.keyCode == 13 && somethingToRise.value !== "") {
             cloudComputing(somethingToRise.value);
@@ -29,7 +30,7 @@ if (somethingToRise) {
 }
 
 if (mineNow) {
-    mineNow.addEventListener("click", function () {
+    mineNow.addEventListener("click", () => {
         if (somethingToRise.value !== "") {
             cloudComputing(somethingToRise.value);
         }
@@ -37,16 +38,37 @@ if (mineNow) {
 }
 
 if (sendMessage) {
-    sendMessage.addEventListener("click", function () {
-        sendingMessage(firstName.value, contactWhatsapp.value, message.value.replace('.', ''));
+    sendMessage.addEventListener("click", () => {
+        if (window.mobileCheck) {
+            let lblMsg = "";
+            if (forFname.innerHTML) {
+                lblMsg = `Hi, I'm ${forFname.innerHTML}!\n \n`;
+            }
+            sendingMessage(firstName.value, "", `${lblMsg}${message.value}`.replace('.', ''));
+        }
+
     });
 }
 
-setInterval(function () {
+setInterval(() => {
     if (consoleRemote.scrollTop < consoleRemote.scrollHeight) {
         consoleRemote.scrollTop += 1;
     }
 }, 100)
+
+$("#fname").on('input', () => {
+    if($("#fname").val()){
+        $(".labelMessage").css("display", "block")
+        $("#message").css("padding-top", "40px")
+    }else{
+        $(".labelMessage").css("display", "none")
+        $("#message").css("padding-top", "10px")
+    }
+    $("#forFname").html($("#fname").val())
+
+});
+
+
 
 function showAbout() {
     about.style.display = 'block';

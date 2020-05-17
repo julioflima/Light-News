@@ -48,9 +48,8 @@ async function cloudComputing(someURl) {
 }
 
 function sendingMessage(firstName, contact, message) {
-    if (window.mobileCheck) {
-        let wpp = `https://wa.me/+5585998614541?text=I'm ${firstName}.\n \n My contact is:${contact} \n \n ${message}`;
-        window.open(encodeURI(wpp));
+    if (!contact) {
+        window.open(encodeURI(`https://wa.me/+5585998614541?text=${message}`));
     }
 }
 
@@ -69,7 +68,6 @@ async function postOnInstagram(bundleNews) {
     let response = await FB.getLoginStatus();
     plotConsole(`${response}`)
     console.log(response)
-    // return await network('https://us-central1-light-news.cloudfunctions.net/' + func, 'GET', data)
 }
 
 async function getFromCloud(func, method, dataIn) {

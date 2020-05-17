@@ -137,7 +137,7 @@ select,
 textarea {
   color: inherit;
   font: inherit;
-  margin: 0;
+  /* margin: 0; */
 }
 
 button {
@@ -2101,7 +2101,7 @@ output {
   color: #999;
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-  background-color: #eeeeee;
+  background-color: #999;
   opacity: 1;
 }
 .form-control[disabled], fieldset[disabled] .form-control {
@@ -2109,7 +2109,7 @@ output {
 }
 
 textarea.form-control {
-  height: auto;
+  /* height: auto; */
 }
 
 input[type="search"] {

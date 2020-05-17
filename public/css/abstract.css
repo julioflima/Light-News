@@ -509,7 +509,8 @@ select {
 }
 
 textarea {
-	min-height: 25rem;
+	min-height: 30rem !important;
+	height: auto;
 }
 
 input[type="email"]:focus,
@@ -557,23 +558,23 @@ label > input[type="radio"] {
  * Style Placeholder Text  
  */
 ::-webkit-input-placeholder {
-	color: #777777;
+	color: red;
 }
 
 :-moz-placeholder {
-	color: #777777;  /* Firefox 18- */
+	color: red;  /* Firefox 18- */
 }
 
 ::-moz-placeholder {
-	color: #777777;  /* Firefox 19+ */
+	color: red;  /* Firefox 19+ */
 }
 
 :-ms-input-placeholder {
-	color: #777777;
+	color: red;
 }
 
 .placeholder {
-	color: #777777 !important;
+	color: red !important;
 }
 
  
