@@ -6,17 +6,13 @@ function changeBg() {
 }
 
 function lightOut() {
-    let animation = "neon 10s ease-in-out  alternate"
+    let animation = "neon 10s ease-in-out  alternate forwards"
 
     $("p a").css('color', "#ffffff")
 
     $("p a").css('-webkit-animation', animation)
     $("p a").css('-moz-animation', animation)
     $("p a").css('animation', animation)
-
-    $("p a").css('-webkit-animation-fill-mode', 'forwards')
-    $("p a").css('-moz-animation-fill-mode', 'forwards')
-    $("p a").css('animation-fill-mode', 'forwards')
 }
 
 function animateDashboard(page, id = '#fh5co-project') {
