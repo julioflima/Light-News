@@ -4,9 +4,9 @@ const {
   getData, sanitizeNews, getSummarize,
   getHashtags, getTranslationToEn, getReTranslation, translatedLang,
   getReferenciate, buildCaption,
-} = require('../robots/text');
+} = require('../api/text');
 
-const News = require('../robots/News');
+const News = require('../api/News');
 
 const credentials = require('../database/credentials.json');
 
@@ -28,6 +28,7 @@ module.exports = {
 
     //  The Orchestrator
     try {
+      console.log(someURL);
       const { data, host, url } = await getData(someURL);
       const { news, imgNews } = await new News(data, host).getNews();
       const translated = await getTranslationToEn(news);

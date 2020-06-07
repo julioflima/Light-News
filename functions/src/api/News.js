@@ -6,13 +6,7 @@ class News {
     this.host = host;
   }
 
-  getNews() {
-    const links = this.guessHost(this.data)(this.host);
-
-    return links;
-  }
-
-  static guessHost(data, host) {
+  getNews(data, host) {
     const $ = cheerio.load(data);
     const news = [];
     const imgNews = [];

@@ -2,9 +2,9 @@
 
 // const { Datastore } = require('@google-cloud/datastore');
 
-const { getData } = require('../robots/text');
+const { getData } = require('../api/text');
 
-const { Links } = require('../robots/Links');
+const { Links } = require('../api/Links');
 
 
 // //Initialize client.

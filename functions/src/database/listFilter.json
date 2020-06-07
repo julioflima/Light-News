@@ -1,31 +1,32 @@
 {
-    "words": {
-        "www.bbc.com": [
-            "Share this with",
-            "Share this post with",
-            "Email",
-            "Facebook",
-            "Messenger",
-            "Twitter",
-            "WhatsApp",
-            "LinkedIn",
-            "Pinterest",
-            "Copy this link",
-            "These are external links and will open in a new window",
-            "Have you watched our new videos on YouTube? Subscribe to our channel!",
-            "End of YouTube post from BBC News Brasil",
-            "End of YouTube post 2 of BBC News Brasil",
-            "End of YouTube post 3 from BBC News Brasil",
-            "Share this post with Email ",
-            " Facebook Messenger Messenger ",
-            " Twitter WhatsApp ",
-            " LinkedIn Copy this link ",
-            " These are external links and will open in a new window "
-        ]
-    },
-    "links": {
-        "www.bbc.com": [
-            "Share this with"
-        ]
-    }
+  "words": {
+    "www.bbc.com": [
+      "Share this with",
+      "Share this post with",
+      "Email",
+      "Facebook",
+      "Messenger",
+      "Twitter",
+      "WhatsApp",
+      "LinkedIn",
+      "Pinterest",
+      "Copy this link",
+      "These are external links and will open in a new window",
+      "Have you watched our new videos on YouTube? Subscribe to our channel!",
+      "End of YouTube post from BBC News Brasil",
+      "End of YouTube post 2 of BBC News Brasil",
+      "End of YouTube post 3 from BBC News Brasil",
+      "Share this post with Email ",
+      " Facebook Messenger Messenger ",
+      " Twitter WhatsApp ",
+      " LinkedIn Copy this link ",
+      " These are external links and will open in a new window "
+    ],
+    "": []
+  },
+  "links": {
+    "www.bbc.com": [
+      "Share this with"
+    ]
+  }
 }
