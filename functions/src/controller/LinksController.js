@@ -14,7 +14,7 @@ const { Links } = require('../api/Links');
 
 module.exports = {
   async create(req, res) {
-    // //Define cors and max timout.
+    // Define cors and max timout.
     // res.set('Access-Control-Allow-Origin', '*');
     // res.set('Access-Control-Allow-Credentials', 'true');
     // res.set('Access-Control-Max-Age', '3600');
@@ -26,7 +26,7 @@ module.exports = {
     try {
       const { data, host } = await getData(someURL);
 
-      const bundle = await new Links(data, host).getLinks();
+      const bundle = new Links(data, host).getLinks();
 
       // Return bundle to User.
       res.json(bundle);

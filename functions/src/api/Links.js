@@ -6,19 +6,18 @@ class Links {
     this.host = host;
   }
 
-  getLinks(data, host) {
-    const $ = cheerio.load(data);
+  getLinks() {
+    const $ = cheerio.load(this.data);
+    const approves = [];
+    const reject = [];
 
     return {
       'www.bbc.com': () => {
-        const approves = [];
-        const reject = [];
-
         $('a').each(() => {
           let link = $(this).attr('href');
 
           if (link[0] !== 'h') {
-            link = `http://${host}${link}`;
+            link = `http://${this.host}${link}`;
           }
 
           const part = link.split('/')[3];
@@ -34,10 +33,9 @@ class Links {
           }
         });
 
-
         return { approves, reject };
       },
-    }[host];
+    }[this.host];
   }
 }
 

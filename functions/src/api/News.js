@@ -6,8 +6,8 @@ class News {
     this.host = host;
   }
 
-  getNews(data, host) {
-    const $ = cheerio.load(data);
+  getNews() {
+    const $ = cheerio.load(this.data);
     const news = [];
     const imgNews = [];
 
@@ -23,7 +23,7 @@ class News {
 
         return { news, imgNews };
       },
-    }[host];
+    }[this.host];
   }
 }
 
