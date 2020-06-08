@@ -23,7 +23,7 @@ class News {
 
         return { news, imgNews };
       },
-    }[this.host];
+    }[this.host]();
   }
 }
 

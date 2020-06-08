@@ -35,7 +35,7 @@ class Links {
 
         return { approves, reject };
       },
-    }[this.host];
+    }[this.host]();
   }
 }
 
