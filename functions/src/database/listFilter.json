@@ -1,6 +1,6 @@
 {
   "words": {
-    "www.bbc.com": [
+    "bbc.com": [
       "Share this with",
       "Share this post with",
       "Email",
@@ -16,17 +16,33 @@
       "End of YouTube post from BBC News Brasil",
       "End of YouTube post 2 of BBC News Brasil",
       "End of YouTube post 3 from BBC News Brasil",
-      "Share this post with Email ",
-      " Facebook Messenger Messenger ",
-      " Twitter WhatsApp ",
-      " LinkedIn Copy this link ",
-      " These are external links and will open in a new window "
+      "Share this post with Email",
+      "Facebook Messenger Messenger ",
+      "Twitter WhatsApp",
+      "LinkedIn Copy this link",
+      "These are external links and will open in a new window"
     ],
     "": []
   },
   "links": {
-    "www.bbc.com": [
-      "Share this with"
+    "bbc.com": [
+      "bbc.com/portuguese/topics",
+      "bbc.com/portuguese/media",
+      "bbc.com/portuguese/media/video",
+      "bbc.com/portuguese",
+      "bbc.com/portuguese/internacional",
+      "bbc.com/portuguese/salasocial",
+      "bbc.com/portuguese/aprenda_ingles",
+      "bbc.com/portuguese/brasil",
+      "bbc.com/brasil/brasil",
+      "bbc.com",
+      "bbc.com/usingthebbc/cookies/",
+      "bbc.com/usingthebbc/cookies/how-can-i-change-my-bbc-cookie-settings/",
+      "bbc.co.uk/help/web/links/",
+      "facebook.com/bbcnewsbrasil/",
+      "youtube.com/user/BBCBrasil",
+      "instagram.com/bbcbrasil/",
+      "twitter.com/bbcbrasil"
     ]
   }
 }

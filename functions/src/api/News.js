@@ -13,12 +13,12 @@ class News {
 
     return {
       'www.bbc.com': () => {
-        $('p').each(() => {
-          news.push($(this).text());
+        $('p').each((i, each) => {
+          news.push($(each).text());
         });
 
-        $('img').each(() => {
-          imgNews.push({ src: $(this).attr('src'), alt: $(this).attr('alt') });
+        $('img').each((i, each) => {
+          imgNews.push({ src: $(each).attr('src'), alt: $(each).attr('alt') });
         });
 
         return { news, imgNews };
@@ -27,4 +27,4 @@ class News {
   }
 }
 
-module.exports = { News };
+module.exports = News;

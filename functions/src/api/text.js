@@ -30,11 +30,9 @@ const self = {
     const arrayStrings = [];
     let news = [];
     let lang = [];
-    newString.forEach(async (elem) => {
-      Promise((resolve) => {
-        resolve(arrayStrings.push(googleTranslate(elem, { to: 'en' })));
-      });
-    });
+    newString.forEach(async (elem) => new Promise((resolve) => {
+      resolve(arrayStrings.push(googleTranslate(elem, { to: 'en' })));
+    }));
     const response = await Promise.all(arrayStrings);
     response.forEach((elem) => {
       news.push(elem.text);
@@ -55,11 +53,7 @@ const self = {
   },
 
   sanitizeNews(news, host) {
-    // console.log(news)
-    const sanitized = news.filter((item) => !listFilter.words[host].includes(item)).join(' ')
-      .replace(/&#9642/gi, '');
-    // console.log(sanitized)
-    return sanitized;
+    return news.filter((item) => listFilter.words[host].every((each) => !(self.similarity(item, each) > 0.4))).join(' ').replace(/&#9642/gi, '');
   },
 
   translatedLang(reqLang, detectedLang) {
@@ -117,6 +111,44 @@ const self = {
       - arr.filter((v) => v === b).length).pop();
   },
 
+  similarity(string1, string2) {
+    function levenshteinDistance(s1, s2) {
+      const costs = [];
+      for (let i = 0; i <= s1.length; i += 1) {
+        let lastValue = i;
+        for (let j = 0; j <= s2.length; j += 1) {
+          if (i === 0) costs[j] = j;
+          else if (j > 0) {
+            let newValue = costs[j - 1];
+            if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+              newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
+          }
+        }
+        if (i > 0) costs[s2.length] = lastValue;
+      }
+      return costs[s2.length];
+    }
+
+    function compareString(s1, s2) {
+      let longer = s1.toLowerCase();
+      let shorter = s2.toLowerCase();
+
+      if (s1.length < s2.length) {
+        longer = s2;
+        shorter = s1;
+      }
+      const longerLength = longer.length;
+      if (longerLength === 0) {
+        return 1.0;
+      }
+      return (longerLength - levenshteinDistance(longer, shorter)) / parseFloat(longerLength);
+    }
+
+    return compareString(string1, string2);
+  },
 };
 
 module.exports = self;
